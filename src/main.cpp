@@ -138,6 +138,7 @@ void setup()
   Serial.println("David bit drum machine");
 
   display.startup();
+
   pinMode(BUTTON1, INPUT);
 
   AudioMemory(12);

@@ -1,4 +1,5 @@
 #include <Display.h>
+#include <cmath>
 
 #define SCREEN_WIDTH 128    // OLED display width, in pixels
 #define SCREEN_HEIGHT 32    // OLED display height, in pixels
@@ -10,6 +11,7 @@ Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 void testdrawchar();
 void setModeText(int mode, String &modeText);
 void setOnOffText(int metroOnOff, String &onOffText);
+String createAlignedEncoder(int encoderValue);
 
 void Display::init()
 {
@@ -46,6 +48,8 @@ void Display::startup()
   delay(2000);
 }
 
+int digits;
+
 void Display::displayEncoders(
     int mode,
     bool metroOnOff,
@@ -70,29 +74,29 @@ void Display::displayEncoders(
   setOnOffText(metroOnOff, onOffText);
 
   oled.print(modeText);
-  oled.print(" ");
+  oled.setCursor(78, 0);
   oled.print(metroEncoder);
   oled.print("ms");
-  oled.print(" ");
-  oled.println(onOffText);
+  oled.print("  ");
+  oled.print(onOffText);
 
-  oled.print(" ");
+  oled.setCursor(2, 12);
   oled.print(encoder1Value);
 
-  oled.print(" ");
+  oled.setCursor(44, 12);
   oled.print(encoder2Value);
 
-  oled.print(" ");
+  oled.setCursor(86, 12);
   oled.println(encoder3Value);
 
-  oled.print(" ");
+  oled.setCursor(2, 24);
   oled.print(encoder4Value);
 
-  oled.print(" ");
+  oled.setCursor(44, 24);
   oled.print(encoder5Value);
 
-  oled.print(" ");
-  oled.println(encoder6Value);
+  oled.setCursor(86, 24);
+  oled.print(encoder6Value);
   oled.display();
 }
 
@@ -114,12 +118,30 @@ void setModeText(int mode, String &modeText)
 
 void setOnOffText(int metroOnOff, String &onOffText)
 {
-  if (metroOnOff == 0)
+  if (metroOnOff == 1)
   {
-    onOffText = "O";
-  }
-  else
-  {
-    onOffText = "X";
+    oled.fillCircle(120, 3, 2, SSD1306_WHITE);
   }
 }
+
+// String createAlignedEncoder(int encoderValue)
+// {
+//   digits = int(log10(encoderValue)) + 1;
+//   Serial.println(digits);
+//   if (digits == 0)
+//   {
+//     return "  ";
+//   }
+
+//   if (digits == 1)
+//   {
+//     return "  ";
+//   }
+
+//   if (digits == 2)
+//   {
+//     return " ";
+//   }
+
+//   return "";
+// }
