@@ -250,20 +250,20 @@ void HandleInputs(int &enc1Value, int &enc2Value, int &enc3Value, int &enc4Value
   HandleEncoder(knobFour, oldEncoderValuesArray[3], enc4Value, update);
   HandleEncoder(knobSeven, oldEncoderValuesArray[4], enc7Value, update);
 
-  if (update)
-  {
-    Serial.print("1: ");
-    Serial.print(enc1Value);
-    Serial.print(", 2: ");
-    Serial.print(enc2Value);
-    Serial.print(", 3: ");
-    Serial.print(enc3Value);
-    Serial.print(", 4: ");
-    Serial.print(enc4Value);
-    Serial.print(", 7: ");
-    Serial.print(enc7Value);
-    Serial.println();
-  }
+  // if (update)
+  // {
+  //   Serial.print("1: ");
+  //   Serial.print(enc1Value);
+  //   Serial.print(", 2: ");
+  //   Serial.print(enc2Value);
+  //   Serial.print(", 3: ");
+  //   Serial.print(enc3Value);
+  //   Serial.print(", 4: ");
+  //   Serial.print(enc4Value);
+  //   Serial.print(", 7: ");
+  //   Serial.print(enc7Value);
+  //   Serial.println();
+  // }
 
   if (bounce7.update())
   {
@@ -320,7 +320,7 @@ void HandleInputs(int &enc1Value, int &enc2Value, int &enc3Value, int &enc4Value
     {
       metro.restart(); // Restart the chronometer.
 
-      if (counter == 7)
+      if (counter == 15)
       {
         counter = 0;
       }
@@ -380,46 +380,42 @@ void setupDrumSynth()
 
 void drumSynthHandling()
 {
-  //  int bdFill = bdFillEncValue ^ (enc1Value & bdFillEncValue);
-  //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
-  //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
-
-  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = enc4Value ^ (enc2Value & enc4Value);
-  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
-
-  // Bass drums
-  if (bitRead(enc1Value, counter) == 1)
+  // Steps 0 - 7
+  if (counter < 8)
   {
-    drum1.noteOn();
+    // BD
+    if (bitRead(enc1Value, counter) == 1)
+    {
+      drum1.noteOn();
+    }
+    // Snare
+    if (bitRead(enc3Value, counter) == 1)
+    {
+      drum2.noteOn();
+    }
+    // HiHat
+    if (bitRead(100, counter) == 1)
+    {
+      drum3.noteOn();
+    }
   }
-
-  // if (bitRead(bdFill, counter) == 1)
-  // {
-  //   drum4.noteOn();
-  // }
-
-  // Snares
-  if (bitRead(enc2Value, counter) == 1)
+  else if (counter > 7)
   {
-    drum2.noteOn();
-  }
+    if (bitRead(enc2Value, counter) == 1)
+    {
+      drum1.noteOn();
+    }
 
-  if (bitRead(snFill, counter) == 1)
-  {
-    drum5.noteOn();
-  }
+    if (bitRead(enc4Value, counter) == 1)
+    {
+      drum2.noteOn();
+    }
 
-  // HiHats
-  if (bitRead(enc3Value, counter) == 1)
-  {
-    drum3.noteOn();
+    if (bitRead(200, counter) == 1)
+    {
+      drum3.noteOn();
+    }
   }
-
-  // if (bitRead(hhFill, counter) == 1)
-  // {
-  //   drum6.noteOn();
-  // }
 }
 
 void setupStringSynth()
@@ -428,46 +424,42 @@ void setupStringSynth()
 
 void stringSynthHandling()
 {
-  //  int bdFill = bdFillEncValue ^ (enc1Value & bdFillEncValue);
-  //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
-  //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
-
-  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = enc4Value ^ (enc2Value & enc4Value);
-  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
-
-  // Bass drums
-  if (bitRead(enc1Value, counter) == 1)
+  if (counter < 8)
   {
-    string1.noteOn(NOTE_F2, 0.65);
+    if (bitRead(enc1Value, counter) == 1)
+    {
+      string1.noteOn(NOTE_F2, 0.65);
+    }
+
+    if (bitRead(enc3Value, counter) == 1)
+    {
+      string2.noteOn(NOTE_A2, 0.65);
+    }
+
+    if (bitRead(100, counter) == 1)
+    {
+      string3.noteOn(NOTE_C3, 0.65);
+    }
   }
 
-  // if (bitRead(bdFill, counter) == 1)
-  // {
-  //   string4.noteOn(NOTE_F3, 0.2);
-  // }
-
-  // Snares
-  if (bitRead(enc2Value, counter) == 1)
+  if (counter > 7)
   {
-    string2.noteOn(NOTE_A2, 0.65);
-  }
+    int newCounter = counter - 8;
+    if (bitRead(enc1Value, newCounter) == 1)
+    {
+      string1.noteOn(NOTE_F2, 0.65);
+    }
 
-  if (bitRead(snFill, counter) == 1)
-  {
-    string5.noteOn(NOTE_A3, 0.3);
-  }
+    if (bitRead(enc3Value, newCounter) == 1)
+    {
+      string2.noteOn(NOTE_A2, 0.65);
+    }
 
-  // HiHats
-  if (bitRead(enc3Value, counter) == 1)
-  {
-    string3.noteOn(NOTE_C3, 0.65);
+    if (bitRead(100, newCounter) == 1)
+    {
+      string3.noteOn(NOTE_C3, 0.65);
+    }
   }
-
-  // if (bitRead(hhFill, counter) == 1)
-  // {
-  //   string6.noteOn(NOTE_C4, 0.3);
-  // }
 }
 
 void setupSdPlayer()
@@ -502,45 +494,42 @@ const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "BD2.WAV", "SNR2.WAV
 
 void sdPlayerHandling()
 {
-
-  //  int bdFill = bdFillEncValue ^ (enc1Value & bdFillEncValue);
-  //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
-  //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
-
-  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = enc4Value ^ (enc2Value & enc4Value);
-  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
-
-  // Bass drums
-  if (bitRead(enc1Value, counter) == 1)
+  // Steps 0 - 7
+  if (counter < 8)
   {
-    playSdWav1.play(filelist[0]);
+    // BD
+    if (bitRead(enc1Value, counter) == 1)
+    {
+      playSdWav1.play(filelist[0]);
+    }
+
+    if (bitRead(enc3Value, counter) == 1)
+    {
+      playSdWav2.play(filelist[1]);
+    }
+
+    if (bitRead(100, counter) == 1)
+    {
+      playSdWav3.play(filelist[2]);
+    }
   }
-
-  // if (bitRead(bdFill, counter) == 1)
-  // {
-  //   playSdWav4.play(filelist[3]);
-  // }
-
-  // Snares
-  if (bitRead(enc2Value, counter) == 1)
+  else
   {
-    playSdWav2.play(filelist[1]);
-  }
+    // BD
+    int newCounter = counter - 8;
+    if (bitRead(enc2Value, newCounter) == 1)
+    {
+      playSdWav1.play(filelist[0]);
+    }
 
-  if (bitRead(snFill, counter) == 1)
-  {
-    playSdWav5.play(filelist[4]);
-  }
+    if (bitRead(enc4Value, newCounter) == 1)
+    {
+      playSdWav2.play(filelist[1]);
+    }
 
-  // HiHats
-  if (bitRead(enc3Value, counter) == 1)
-  {
-    playSdWav3.play(filelist[2]);
+    if (bitRead(200, newCounter) == 1)
+    {
+      playSdWav3.play(filelist[2]);
+    }
   }
-
-  // if (bitRead(hhFill, counter) == 1)
-  // {
-  //   playSdWav6.play(filelist[5]);
-  // }
 }
