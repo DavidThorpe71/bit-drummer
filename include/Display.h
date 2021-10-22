@@ -26,12 +26,10 @@ public:
   void displayEncoders(
       int mode,
       bool metroOnOff,
-      int metroEncoder,
-      int encoder1Value,
-      int encoder2Value,
-      int encoder3Value,
-      int encoder4Value,
-      int encoder5Value,
-      int encoder6Value);
+      int encoderValue1,
+      int encoderValue2,
+      int encoderValue3,
+      int encoderValue4,
+      int encoderValue7);
 };
 #endif

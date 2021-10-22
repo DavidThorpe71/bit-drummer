@@ -53,13 +53,11 @@ int digits;
 void Display::displayEncoders(
     int mode,
     bool metroOnOff,
-    int metroEncoder,
-    int encoder1Value,
-    int encoder2Value,
-    int encoder3Value,
-    int encoder4Value,
-    int encoder5Value,
-    int encoder6Value)
+    int encoderValue1,
+    int encoderValue2,
+    int encoderValue3,
+    int encoderValue4,
+    int encoderValue7)
 {
   oled.clearDisplay();
 
@@ -75,28 +73,28 @@ void Display::displayEncoders(
 
   oled.print(modeText);
   oled.setCursor(78, 0);
-  oled.print(metroEncoder);
+  oled.print(encoderValue7);
   oled.print("ms");
   oled.print("  ");
   oled.print(onOffText);
 
   oled.setCursor(2, 12);
-  oled.print(encoder1Value);
+  oled.print(encoderValue1);
 
   oled.setCursor(44, 12);
-  oled.print(encoder2Value);
+  oled.print(encoderValue2);
 
   oled.setCursor(86, 12);
-  oled.println(encoder3Value);
+  oled.println(encoderValue3);
 
   oled.setCursor(2, 24);
-  oled.print(encoder4Value);
+  oled.print(encoderValue4);
 
   oled.setCursor(44, 24);
-  oled.print(encoder5Value);
+  oled.print(127);
 
   oled.setCursor(86, 24);
-  oled.print(encoder6Value);
+  oled.print(127);
   oled.display();
 }
 

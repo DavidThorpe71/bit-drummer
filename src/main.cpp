@@ -13,7 +13,7 @@
 #include <Bounce.h>
 #include <Display.h>
 
-void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5);
+void HandleInputs(int &enc1Value, int &enc2Value, int &enc3Value, int &enc4Value, int &enc7Value);
 
 void setupDrumSynth();
 void setupStringSynth();
@@ -98,22 +98,28 @@ Encoder knobOne(0, 1);
 Encoder knobTwo(2, 3);
 Encoder knobThree(4, 5);
 Encoder knobFour(24, 25);
-Encoder knobFive(26, 27);
-// Encoder enc6(?, ?);
+// Encoder knobFive(?, ?);
+// Encoder knobSix(?, ?);
+Encoder knobSeven(26, 27);
+
+// TODO: FIX ISSUE HERE
+Encoder physicalEncoderArray[5] = {knobOne, knobTwo, knobThree, knobFour, knobSeven};
 
 #define BUTTON1 28
 #define BUTTON2 29
 #define BUTTON3 30
 #define BUTTON4 31
-#define BUTTON5 32
+//#define BUTTON5 ?
 //#define BUTTON6 ?
+#define BUTTON7 32
 
 Bounce bounce1 = Bounce(BUTTON1, 5);
 Bounce bounce2 = Bounce(BUTTON2, 5);
 Bounce bounce3 = Bounce(BUTTON3, 5);
 Bounce bounce4 = Bounce(BUTTON4, 5);
-Bounce bounce5 = Bounce(BUTTON5, 5);
+// Bounce bounce5 = Bounce(BUTTON5, 5);
 // Bounce bounce6 = Bounce( BUTTON6, 5 );
+Bounce bounce7 = Bounce(BUTTON7, 5);
 
 #define SDCARD_CS_PIN 10
 #define SDCARD_MOSI_PIN 11
@@ -143,7 +149,7 @@ void setup()
   pinMode(BUTTON2, INPUT);
   pinMode(BUTTON3, INPUT);
   pinMode(BUTTON4, INPUT);
-  pinMode(BUTTON5, INPUT);
+  pinMode(BUTTON7, INPUT);
 
   AudioMemory(12);
 
@@ -155,31 +161,30 @@ void setup()
   setupStringSynth();
   setupSdPlayer();
 
-  knobFive.write(600);
+  knobSeven.write(600);
 }
 
 int positionOne = -999;
 int positionTwo = -999;
 int positionThree = -999;
 int positionFour = -999;
-int positionFive = -999;
-// int initialEncVal6 = -999;
+// int positionFive = -999;
+// int positionSix = -999;
+int positionSeven = -999;
+
+int oldEncoderValuesArray[5] = {positionOne, positionTwo, positionThree, positionFour, positionSeven};
 
 int counter = 0;
-
-// int mockBd = 199;
-int mockSn = 65;
-int mockHh = 200;
-int mockBdFill = 10;
-int mockSnFill = 4;
-int mockHhFill = 67;
 
 int enc1Value;
 int enc2Value;
 int enc3Value;
 int enc4Value;
-int enc5Value;
-// int hhFillEncValue;
+// int enc5Value = 0;
+// int enc6Value = 0;
+int enc7Value;
+
+int encoderValuesArray[5] = {enc1Value, enc2Value, enc3Value, enc4Value, enc7Value};
 
 int mode = 0;
 int origTest = 0;
@@ -194,7 +199,7 @@ void loop()
     origTest = test;
   }
 
-  HandleInputs(enc1Value, enc2Value, enc3Value, enc4Value, enc5Value);
+  HandleInputs(enc1Value, enc2Value, enc3Value, enc4Value, enc7Value);
 
   // if a character is sent from the serial monitor,
   // reset both back to zero.
@@ -206,70 +211,66 @@ void loop()
     knobTwo.write(0);
     knobThree.write(0);
     knobFour.write(0);
-    knobFive.write(0);
+    // knobFive.write(0);
+    // knobSix.write(0);
+    knobSeven.write(0);
   }
 }
 
-void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
+void HandleEncoder(Encoder physicalEncoder, int &oldEncoderValue, int &encoderValue, bool &update)
+{
+  int newEncoderValue = physicalEncoder.read();
+
+  if (newEncoderValue >= 1020)
+  {
+    physicalEncoder.write(1020);
+  }
+
+  if (newEncoderValue <= 0)
+  {
+    physicalEncoder.write(0);
+  }
+
+  if (newEncoderValue != oldEncoderValue)
+  {
+    encoderValue = newEncoderValue / 4;
+    update = true;
+
+    oldEncoderValue = newEncoderValue;
+  }
+}
+
+void HandleInputs(int &enc1Value, int &enc2Value, int &enc3Value, int &enc4Value, int &enc7Value)
 {
   bool update = false;
-  int newOne, newTwo, newThree, newFour, newFive;
 
-  newOne = knobOne.read();
-  newTwo = knobTwo.read();
-  newThree = knobThree.read();
-  newFour = knobFour.read();
-  newFive = knobFive.read();
-  //  newSix = enc6.read();
+  HandleEncoder(knobOne, oldEncoderValuesArray[0], enc1Value, update);
+  HandleEncoder(knobTwo, oldEncoderValuesArray[1], enc2Value, update);
+  HandleEncoder(knobThree, oldEncoderValuesArray[2], enc3Value, update);
+  HandleEncoder(knobFour, oldEncoderValuesArray[3], enc4Value, update);
+  HandleEncoder(knobSeven, oldEncoderValuesArray[4], enc7Value, update);
 
-  if (newOne >= 1020)
+  if (update)
   {
-    knobOne.write(1020);
-  }
-
-  if (newOne <= 0)
-  {
-    knobOne.write(0);
-  }
-
-  if (newOne != positionOne ||
-      newTwo != positionTwo ||
-      newThree != positionThree ||
-      newFour != positionFour ||
-      newFive != positionFive)
-  {
-    enc1 = newOne / 4;
-    enc2 = newTwo / 4;
-    enc3 = newThree / 4;
-    enc4 = newFour / 4;
-    enc5 = newFive / 4;
-
-    update = true;
     Serial.print("1: ");
-    Serial.print(enc1);
+    Serial.print(enc1Value);
     Serial.print(", 2: ");
-    Serial.print(enc2);
+    Serial.print(enc2Value);
     Serial.print(", 3: ");
-    Serial.print(enc3);
+    Serial.print(enc3Value);
     Serial.print(", 4: ");
-    Serial.print(enc4);
-    Serial.print(", 5: ");
-    Serial.print(enc5);
+    Serial.print(enc4Value);
+    Serial.print(", 7: ");
+    Serial.print(enc7Value);
     Serial.println();
-
-    positionOne = newOne;
-    positionTwo = newTwo;
-    positionThree = newThree;
-    positionFour = newFour;
-    positionFive = newFive;
   }
 
-  if (bounce1.update())
+  if (bounce7.update())
   {
     update = true;
-    Serial.println("button1 clicked");
-    if (bounce1.read() == HIGH)
+    if (bounce7.read() == HIGH)
     {
+      Serial.println("button7 clicked");
       if (!metroOn)
       {
         metroOn = true;
@@ -281,12 +282,12 @@ void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
     }
   }
 
-  if (bounce2.update())
+  if (bounce1.update())
   {
     update = true;
-    Serial.println("button2 clicked");
-    if (bounce2.read() == HIGH)
+    if (bounce1.read() == HIGH)
     {
+      Serial.println("button1 clicked");
       if (mode < 2)
       {
         mode++;
@@ -296,6 +297,11 @@ void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
         mode = 0;
       }
     }
+  }
+
+  if (bounce2.update())
+  {
+    Serial.println("button2 clicked");
   }
 
   if (bounce3.update())
@@ -308,14 +314,9 @@ void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
     Serial.println("button4 clicked");
   }
 
-  if (bounce5.update())
-  {
-    Serial.println("button5 clicked");
-  }
-
   if (metroOn)
   {
-    if (metro.hasPassed(enc5Value))
+    if (metro.hasPassed(enc7Value))
     {
       metro.restart(); // Restart the chronometer.
 
@@ -347,7 +348,7 @@ void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
 
   if (update)
   {
-    display.displayEncoders(mode, metroOn, enc5, enc1, enc2, enc3, enc4, 100, 200);
+    display.displayEncoders(mode, metroOn, enc1Value, enc2Value, enc3Value, enc4Value, enc7Value);
   }
 }
 
@@ -449,23 +450,23 @@ void stringSynthHandling()
   // Snares
   if (bitRead(enc2Value, counter) == 1)
   {
-    string1.noteOn(NOTE_A2, 0.65);
+    string2.noteOn(NOTE_A2, 0.65);
   }
 
   if (bitRead(snFill, counter) == 1)
   {
-    string1.noteOn(NOTE_A3, 0.3);
+    string5.noteOn(NOTE_A3, 0.3);
   }
 
   // HiHats
   if (bitRead(enc3Value, counter) == 1)
   {
-    string1.noteOn(NOTE_C3, 0.65);
+    string3.noteOn(NOTE_C3, 0.65);
   }
 
   // if (bitRead(hhFill, counter) == 1)
   // {
-  //   string1.noteOn(NOTE_C4, 0.3);
+  //   string6.noteOn(NOTE_C4, 0.3);
   // }
 }
 
