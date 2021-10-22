@@ -13,7 +13,7 @@
 #include <Bounce.h>
 #include <Display.h>
 
-void HandleInputs(int &enc1, int &enc2);
+void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5);
 
 void setupDrumSynth();
 void setupStringSynth();
@@ -96,28 +96,28 @@ AudioControlSGTL5000 audioShield; // xy=643,178
 // Encoders pin setup
 Encoder knobOne(0, 1);
 Encoder knobTwo(2, 3);
-// Encoder enc3(5, 6);
-// Encoder enc4(7, 8);
-// Encoder enc5(9, 10);
-// Encoder enc6(11, 12);
+Encoder knobThree(4, 5);
+Encoder knobFour(24, 25);
+Encoder knobFive(26, 27);
+// Encoder enc6(?, ?);
 
-#define BUTTON1 4
-#define BUTTON2 5
-//#define BUTTON3 14
-//#define BUTTON4 15
-//#define BUTTON5 16
-//#define BUTTON6 17
+#define BUTTON1 28
+#define BUTTON2 29
+#define BUTTON3 30
+#define BUTTON4 31
+#define BUTTON5 32
+//#define BUTTON6 ?
 
 Bounce bounce1 = Bounce(BUTTON1, 5);
 Bounce bounce2 = Bounce(BUTTON2, 5);
-// Bounce bounce3 = Bounce( BUTTON3, 5 );
-// Bounce bounce4 = Bounce( BUTTON4, 5 );
-// Bounce bounce5 = Bounce( BUTTON5, 5 );
+Bounce bounce3 = Bounce(BUTTON3, 5);
+Bounce bounce4 = Bounce(BUTTON4, 5);
+Bounce bounce5 = Bounce(BUTTON5, 5);
 // Bounce bounce6 = Bounce( BUTTON6, 5 );
 
 #define SDCARD_CS_PIN 10
-#define SDCARD_MOSI_PIN 7
-#define SDCARD_SCK_PIN 14
+#define SDCARD_MOSI_PIN 11
+#define SDCARD_SCK_PIN 12
 
 boolean metroOn = false;
 
@@ -140,6 +140,10 @@ void setup()
   display.startup();
 
   pinMode(BUTTON1, INPUT);
+  pinMode(BUTTON2, INPUT);
+  pinMode(BUTTON3, INPUT);
+  pinMode(BUTTON4, INPUT);
+  pinMode(BUTTON5, INPUT);
 
   AudioMemory(12);
 
@@ -151,14 +155,14 @@ void setup()
   setupStringSynth();
   setupSdPlayer();
 
-  knobTwo.write(600);
+  knobFive.write(600);
 }
 
 int positionOne = -999;
 int positionTwo = -999;
-// int initialEncVal3 = -999;
-// int initialEncVal4 = -999;
-// int initialEncVal5 = -999;
+int positionThree = -999;
+int positionFour = -999;
+int positionFive = -999;
 // int initialEncVal6 = -999;
 
 int counter = 0;
@@ -172,9 +176,9 @@ int mockHhFill = 67;
 
 int enc1Value;
 int enc2Value;
-// int hhEncValue;
-// int bdFillEncValue;
-// int snFillEncValue;
+int enc3Value;
+int enc4Value;
+int enc5Value;
 // int hhFillEncValue;
 
 int mode = 0;
@@ -190,30 +194,32 @@ void loop()
     origTest = test;
   }
 
-  HandleInputs(enc1Value, enc2Value);
+  HandleInputs(enc1Value, enc2Value, enc3Value, enc4Value, enc5Value);
 
   // if a character is sent from the serial monitor,
   // reset both back to zero.
   if (Serial.available())
   {
     Serial.read();
-    Serial.println("Reset both knobs to zero");
+    Serial.println("Reset all knobs to zero");
     knobOne.write(0);
     knobTwo.write(0);
+    knobThree.write(0);
+    knobFour.write(0);
+    knobFive.write(0);
   }
 }
 
-void HandleInputs(int &enc1, int &enc2)
+void HandleInputs(int &enc1, int &enc2, int &enc3, int &enc4, int &enc5)
 {
   bool update = false;
-  int newOne, newTwo;
-  //  int newOne, newTwo, newThree, newFour, newFive, newSix;
+  int newOne, newTwo, newThree, newFour, newFive;
 
   newOne = knobOne.read();
   newTwo = knobTwo.read();
-  //  newThree = enc3.read();
-  //  newFour = enc4.read();
-  //  newFive = enc5.read();
+  newThree = knobThree.read();
+  newFour = knobFour.read();
+  newFive = knobFive.read();
   //  newSix = enc6.read();
 
   if (newOne >= 1020)
@@ -226,25 +232,42 @@ void HandleInputs(int &enc1, int &enc2)
     knobOne.write(0);
   }
 
-  if (newOne != positionOne || newTwo != positionTwo)
+  if (newOne != positionOne ||
+      newTwo != positionTwo ||
+      newThree != positionThree ||
+      newFour != positionFour ||
+      newFive != positionFive)
   {
     enc1 = newOne / 4;
     enc2 = newTwo / 4;
+    enc3 = newThree / 4;
+    enc4 = newFour / 4;
+    enc5 = newFive / 4;
 
     update = true;
     Serial.print("1: ");
     Serial.print(enc1);
     Serial.print(", 2: ");
     Serial.print(enc2);
+    Serial.print(", 3: ");
+    Serial.print(enc3);
+    Serial.print(", 4: ");
+    Serial.print(enc4);
+    Serial.print(", 5: ");
+    Serial.print(enc5);
     Serial.println();
 
     positionOne = newOne;
     positionTwo = newTwo;
+    positionThree = newThree;
+    positionFour = newFour;
+    positionFive = newFive;
   }
 
   if (bounce1.update())
   {
     update = true;
+    Serial.println("button1 clicked");
     if (bounce1.read() == HIGH)
     {
       if (!metroOn)
@@ -261,6 +284,7 @@ void HandleInputs(int &enc1, int &enc2)
   if (bounce2.update())
   {
     update = true;
+    Serial.println("button2 clicked");
     if (bounce2.read() == HIGH)
     {
       if (mode < 2)
@@ -274,9 +298,24 @@ void HandleInputs(int &enc1, int &enc2)
     }
   }
 
+  if (bounce3.update())
+  {
+    Serial.println("button3 clicked");
+  }
+
+  if (bounce4.update())
+  {
+    Serial.println("button4 clicked");
+  }
+
+  if (bounce5.update())
+  {
+    Serial.println("button5 clicked");
+  }
+
   if (metroOn)
   {
-    if (metro.hasPassed(enc2Value))
+    if (metro.hasPassed(enc5Value))
     {
       metro.restart(); // Restart the chronometer.
 
@@ -308,7 +347,7 @@ void HandleInputs(int &enc1, int &enc2)
 
   if (update)
   {
-    display.displayEncoders(mode, metroOn, enc2, enc1, 127, 201, 165, 255, 187);
+    display.displayEncoders(mode, metroOn, enc5, enc1, enc2, enc3, enc4, 100, 200);
   }
 }
 
@@ -344,9 +383,9 @@ void drumSynthHandling()
   //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
   //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
 
-  int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = mockSnFill ^ (mockSn & mockSnFill);
-  int hhFill = mockHhFill ^ (mockHh & mockHhFill);
+  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
+  int snFill = enc4Value ^ (enc2Value & enc4Value);
+  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
 
   // Bass drums
   if (bitRead(enc1Value, counter) == 1)
@@ -354,13 +393,13 @@ void drumSynthHandling()
     drum1.noteOn();
   }
 
-  if (bitRead(bdFill, counter) == 1)
-  {
-    drum4.noteOn();
-  }
+  // if (bitRead(bdFill, counter) == 1)
+  // {
+  //   drum4.noteOn();
+  // }
 
   // Snares
-  if (bitRead(mockSn, counter) == 1)
+  if (bitRead(enc2Value, counter) == 1)
   {
     drum2.noteOn();
   }
@@ -371,15 +410,15 @@ void drumSynthHandling()
   }
 
   // HiHats
-  if (bitRead(mockHh, counter) == 1)
+  if (bitRead(enc3Value, counter) == 1)
   {
     drum3.noteOn();
   }
 
-  if (bitRead(hhFill, counter) == 1)
-  {
-    drum6.noteOn();
-  }
+  // if (bitRead(hhFill, counter) == 1)
+  // {
+  //   drum6.noteOn();
+  // }
 }
 
 void setupStringSynth()
@@ -392,9 +431,9 @@ void stringSynthHandling()
   //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
   //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
 
-  int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = mockSnFill ^ (mockSn & mockSnFill);
-  int hhFill = mockHhFill ^ (mockHh & mockHhFill);
+  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
+  int snFill = enc4Value ^ (enc2Value & enc4Value);
+  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
 
   // Bass drums
   if (bitRead(enc1Value, counter) == 1)
@@ -402,13 +441,13 @@ void stringSynthHandling()
     string1.noteOn(NOTE_F2, 0.65);
   }
 
-  if (bitRead(bdFill, counter) == 1)
-  {
-    string4.noteOn(NOTE_F3, 0.2);
-  }
+  // if (bitRead(bdFill, counter) == 1)
+  // {
+  //   string4.noteOn(NOTE_F3, 0.2);
+  // }
 
   // Snares
-  if (bitRead(mockSn, counter) == 1)
+  if (bitRead(enc2Value, counter) == 1)
   {
     string1.noteOn(NOTE_A2, 0.65);
   }
@@ -419,15 +458,15 @@ void stringSynthHandling()
   }
 
   // HiHats
-  if (bitRead(mockHh, counter) == 1)
+  if (bitRead(enc3Value, counter) == 1)
   {
     string1.noteOn(NOTE_C3, 0.65);
   }
 
-  if (bitRead(hhFill, counter) == 1)
-  {
-    string1.noteOn(NOTE_C4, 0.3);
-  }
+  // if (bitRead(hhFill, counter) == 1)
+  // {
+  //   string1.noteOn(NOTE_C4, 0.3);
+  // }
 }
 
 void setupSdPlayer()
@@ -467,9 +506,9 @@ void sdPlayerHandling()
   //  int snFill = snFillEncValue ^ (enc2Value & snFillEncValue);
   //  int hhFill = hhFillEncValue ^ (hhEncValue & hhFillEncValue);
 
-  int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
-  int snFill = mockSnFill ^ (mockSn & mockSnFill);
-  int hhFill = mockHhFill ^ (mockHh & mockHhFill);
+  // int bdFill = mockBdFill ^ (enc1Value & mockBdFill);
+  int snFill = enc4Value ^ (enc2Value & enc4Value);
+  // int hhFill = mockHhFill ^ (mockHh & mockHhFill);
 
   // Bass drums
   if (bitRead(enc1Value, counter) == 1)
@@ -483,18 +522,18 @@ void sdPlayerHandling()
   // }
 
   // Snares
-  if (bitRead(mockSn, counter) == 1)
+  if (bitRead(enc2Value, counter) == 1)
   {
     playSdWav2.play(filelist[1]);
   }
 
-  // if (bitRead(snFill, counter) == 1)
-  // {
-  //   playSdWav5.play(filelist[4]);
-  // }
+  if (bitRead(snFill, counter) == 1)
+  {
+    playSdWav5.play(filelist[4]);
+  }
 
   // HiHats
-  if (bitRead(mockHh, counter) == 1)
+  if (bitRead(enc3Value, counter) == 1)
   {
     playSdWav3.play(filelist[2]);
   }
