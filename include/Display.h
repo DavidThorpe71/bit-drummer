@@ -28,8 +28,6 @@ public:
       bool metroOnOff,
       int encoderValue1,
       int encoderValue2,
-      int encoderValue3,
-      int encoderValue4,
       int encoderValue7);
 };
 #endif

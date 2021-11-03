@@ -55,8 +55,6 @@ void Display::displayEncoders(
     bool metroOnOff,
     int encoderValue1,
     int encoderValue2,
-    int encoderValue3,
-    int encoderValue4,
     int encoderValue7)
 {
   oled.clearDisplay();
@@ -84,11 +82,11 @@ void Display::displayEncoders(
   oled.setCursor(44, 12);
   oled.print(encoderValue2);
 
-  oled.setCursor(86, 12);
-  oled.println(encoderValue3);
+  // oled.setCursor(86, 12);
+  // oled.println(encoderValue3);
 
-  oled.setCursor(2, 24);
-  oled.print(encoderValue4);
+  // oled.setCursor(2, 24);
+  // oled.print(encoderValue4);
 
   oled.setCursor(44, 24);
   oled.print(127);
