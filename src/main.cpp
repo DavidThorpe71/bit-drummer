@@ -58,15 +58,16 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=667.3333129882812,27.3333358764648
 
 
 // PIN SETUP
+// TODO: correct these values
 Encoder knobOne(0, 1);
 Encoder knobTwo(2, 3);
 Encoder knobThree(4, 5);
-Encoder knobFour(28, 29);
-Encoder knobFive(30, 31);
-Encoder knobSix(32, 33);
-Encoder knobSeven(4, 5);
-Encoder knobEight(34, 35);
-
+Encoder knobFour(24, 25);
+Encoder knobFive(26, 27);
+Encoder knobSix(28, 29);
+Encoder knobSeven(30, 31);
+Encoder knobEight(32, 33);
+// TODO: need to check these values
 #define BUTTON1 24
 #define BUTTON2 25
 #define BUTTON3 36
@@ -108,7 +109,7 @@ void HandleInputs(
     int &enc7Value,
     int &enc8Value);
 
-void setupSamplePlayback1();
+void setupSdPlayer();
 
 void noteHandling();
 
@@ -376,18 +377,34 @@ void HandleInputs(
 
   if (update)
   {
-    display.displayEncoders(mode, metroOn, enc1Value, enc2Value, enc7Value);
-    // Serial.print("1: ");
-    // Serial.print(enc1Value);
-    // Serial.print(", 2: ");
-    // Serial.print(enc2Value);
-    // Serial.print(", 3: ");
-    // Serial.print(enc3Value);
-    // Serial.print(", 4: ");
-    // Serial.print(enc4Value);
-    // Serial.print(", 7: ");
-    // Serial.print(enc7Value);
-    // Serial.println();
+    display.displayEncoders(
+      mode, 
+      metroOn, 
+      enc1Value, 
+      enc2Value, 
+      enc3Value, 
+      enc4Value, 
+      enc5Value, 
+      enc6Value,
+      enc7Value,
+      enc8Value);
+    Serial.print("1: ");
+    Serial.print(enc1Value);
+    Serial.print(", 2: ");
+    Serial.print(enc2Value);
+    Serial.print(", 3: ");
+    Serial.print(enc3Value);
+    Serial.print(", 4: ");
+    Serial.print(enc4Value);
+    Serial.print(", 5: ");
+    Serial.print(enc5Value);
+    Serial.print(", 6: ");
+    Serial.print(enc6Value);
+    Serial.print(", 7: ");
+    Serial.print(enc7Value);
+    Serial.print(", 8: ");
+    Serial.print(enc8Value);
+    Serial.println();
   }
 }
 

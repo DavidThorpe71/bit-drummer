@@ -55,7 +55,12 @@ void Display::displayEncoders(
     bool metroOnOff,
     int encoderValue1,
     int encoderValue2,
-    int encoderValue7)
+    int encoderValue3,
+    int encoderValue4,
+    int encoderValue5,
+    int encoderValue6,
+    int encoderValue7,
+    int encoderValue8)
 {
   oled.clearDisplay();
 
@@ -71,7 +76,7 @@ void Display::displayEncoders(
 
   oled.print(modeText);
   oled.setCursor(78, 0);
-  oled.print(encoderValue7);
+  oled.print(encoderValue8);
   oled.print("ms");
   oled.print("  ");
   oled.print(onOffText);
@@ -82,17 +87,17 @@ void Display::displayEncoders(
   oled.setCursor(44, 12);
   oled.print(encoderValue2);
 
-  // oled.setCursor(86, 12);
-  // oled.println(encoderValue3);
+  oled.setCursor(86, 12);
+  oled.println(encoderValue3);
 
-  // oled.setCursor(2, 24);
-  // oled.print(encoderValue4);
+  oled.setCursor(2, 24);
+  oled.print(encoderValue4);
 
   oled.setCursor(44, 24);
-  oled.print(127);
+  oled.print(encoderValue5);
 
   oled.setCursor(86, 24);
-  oled.print(127);
+  oled.print(encoderValue6);
   oled.display();
 }
 
@@ -119,25 +124,3 @@ void setOnOffText(int metroOnOff, String &onOffText)
     oled.fillCircle(120, 3, 2, SSD1306_WHITE);
   }
 }
-
-// String createAlignedEncoder(int encoderValue)
-// {
-//   digits = int(log10(encoderValue)) + 1;
-//   Serial.println(digits);
-//   if (digits == 0)
-//   {
-//     return "  ";
-//   }
-
-//   if (digits == 1)
-//   {
-//     return "  ";
-//   }
-
-//   if (digits == 2)
-//   {
-//     return " ";
-//   }
-
-//   return "";
-// }
