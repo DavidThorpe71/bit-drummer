@@ -14,79 +14,48 @@
 #include <Display.h>
 #include <FmSynth.h>
 
+#include <Audio.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+
 // GUItool: begin automatically generated code
-AudioSynthSimpleDrum drum1;               // xy=83,556
-AudioSynthNoiseWhite noise1;              // xy=83,595
-AudioMixer4 mixer2;                       // xy=99,366
-AudioSynthWaveformSineModulated sine_fm6; // xy=99,504
-AudioMixer4 mixer1;                       // xy=101,119
-AudioSynthWaveformSineModulated sine_fm3; // xy=101,257
-AudioSynthWaveformSineModulated sine_fm5; // xy=103,421
-AudioSynthWaveformSineModulated sine_fm2; // xy=105,174
-AudioSynthWaveformSineModulated sine_fm4; // xy=105,312
-AudioSynthWaveformSineModulated sine_fm1; // xy=107,65
-AudioFilterStateVariable filter1;         // xy=200,602
-AudioAmplifier amp7;                      // xy=239,464
-AudioAmplifier amp4;                      // xy=241,217
-AudioEffectEnvelope envelope4;            // xy=248,312
-AudioEffectEnvelope envelope5;            // xy=250,422
-AudioEffectEnvelope envelope2;            // xy=252,175
-AudioEffectEnvelope envelope6;            // xy=252,504
-AudioEffectEnvelope envelope3;            // xy=254,257
-AudioEffectEnvelope envelope1;            // xy=258,67
-AudioMixer4 mixer3;                       // xy=330,575
-AudioMixer4 mixer6;                       // xy=428,330
-AudioMixer4 mixer5;                       // xy=444,83
-AudioEffectWaveshaper waveshape1;         // xy=469,575
-AudioSynthSimpleDrum drum2;               // xy=471,503
-AudioEffectBitcrusher bitcrusher1;        // xy=607,503
-AudioSynthSimpleDrum drum4;               // xy=616,744
-AudioEffectEnvelope envelope7;            // xy=617,575
-AudioSynthSimpleDrum drum3;               // xy=624,691
-AudioMixer4 mixer7;                       // xy=858,237
-AudioMixer4 mixer8;                       // xy=862,343
-AudioMixer4 mixer9;                       // xy=1026,300
-AudioOutputI2S i2s1;                      // xy=1203,300
-AudioConnection patchCord1(drum1, 0, mixer3, 0);
-AudioConnection patchCord2(noise1, 0, filter1, 0);
-AudioConnection patchCord3(mixer2, sine_fm4);
-AudioConnection patchCord4(sine_fm6, envelope6);
-AudioConnection patchCord5(mixer1, sine_fm1);
-AudioConnection patchCord6(sine_fm3, envelope3);
-AudioConnection patchCord7(sine_fm5, envelope5);
-AudioConnection patchCord8(sine_fm2, envelope2);
-AudioConnection patchCord9(sine_fm4, envelope4);
-AudioConnection patchCord10(sine_fm1, envelope1);
-AudioConnection patchCord11(filter1, 1, mixer3, 1);
-AudioConnection patchCord12(amp7, sine_fm5);
-AudioConnection patchCord13(amp4, sine_fm2);
-AudioConnection patchCord14(envelope4, 0, mixer6, 0);
-AudioConnection patchCord15(envelope5, 0, mixer2, 0);
-AudioConnection patchCord16(envelope5, 0, mixer6, 1);
-AudioConnection patchCord17(envelope2, 0, mixer1, 0);
-AudioConnection patchCord18(envelope2, 0, mixer5, 1);
-AudioConnection patchCord19(envelope6, 0, mixer2, 1);
-AudioConnection patchCord20(envelope6, amp7);
-AudioConnection patchCord21(envelope6, 0, mixer6, 2);
-AudioConnection patchCord22(envelope3, 0, mixer1, 1);
-AudioConnection patchCord23(envelope3, amp4);
-AudioConnection patchCord24(envelope3, 0, mixer5, 2);
-AudioConnection patchCord25(envelope1, 0, mixer5, 0);
-AudioConnection patchCord26(mixer3, waveshape1);
-AudioConnection patchCord27(mixer6, 0, mixer7, 1);
-AudioConnection patchCord28(mixer5, 0, mixer7, 0);
-AudioConnection patchCord29(waveshape1, envelope7);
-AudioConnection patchCord30(drum2, bitcrusher1);
-AudioConnection patchCord31(bitcrusher1, 0, mixer7, 2);
-AudioConnection patchCord32(drum4, 0, mixer8, 1);
-AudioConnection patchCord33(envelope7, 0, mixer7, 3);
-AudioConnection patchCord34(drum3, 0, mixer8, 0);
-AudioConnection patchCord35(mixer7, 0, mixer9, 0);
-AudioConnection patchCord36(mixer8, 0, mixer9, 1);
-AudioConnection patchCord37(mixer9, 0, i2s1, 0);
-AudioConnection patchCord38(mixer9, 0, i2s1, 1);
-AudioControlSGTL5000 sgtl5000_1; // xy=1087,852
+AudioPlaySdWav           playSdWav5;     //xy=378.8888804117838,458.88888041178376
+AudioPlaySdWav           playSdWav6;     //xy=380.5555191040039,510.555477142334
+AudioPlaySdWav           playSdWav4;     //xy=382.2222137451172,393.8888359069824
+AudioPlaySdWav           playSdWav2;     //xy=385.55554962158203,285.5555419921875
+AudioPlaySdWav           playSdWav3;     //xy=385.55555725097656,338.88886642456055
+AudioPlaySdWav           playSdWav1;     //xy=392.22221374511713,225.55554707845047
+AudioEffectEnvelope      envelope4;      //xy=603.888916015625,385.5556049346924
+AudioEffectEnvelope      envelope2;      //xy=605.5555191040039,297.22220039367676
+AudioEffectEnvelope      envelope1;      //xy=606.3333129882812,246.3333282470703
+AudioEffectEnvelope      envelope3;      //xy=607.2222290039062,340.5555763244629
+AudioEffectEnvelope      envelope5;      //xy=608.888916015625,430.5555486679077
+AudioEffectEnvelope      envelope6;      //xy=610.5555419921875,475.55550956726074
+AudioMixer4              mixer2;         //xy=810.5555648803711,362.22218322753906
+AudioMixer4              mixer1;         //xy=812.2222696940103,285.5555076599121
+AudioMixer4              mixer3;         //xy=960.5556945800781,315.55550765991217
+AudioOutputI2S           i2s1;           //xy=1125.3334503173828,317.66662979125977
+AudioConnection          patchCord1(playSdWav5, 0, envelope5, 0);
+AudioConnection          patchCord2(playSdWav6, 0, envelope6, 0);
+AudioConnection          patchCord3(playSdWav4, 0, envelope4, 0);
+AudioConnection          patchCord4(playSdWav2, 0, envelope2, 0);
+AudioConnection          patchCord5(playSdWav3, 0, envelope3, 0);
+AudioConnection          patchCord6(playSdWav1, 0, envelope1, 0);
+AudioConnection          patchCord7(envelope4, 0, mixer1, 3);
+AudioConnection          patchCord8(envelope2, 0, mixer1, 1);
+AudioConnection          patchCord9(envelope1, 0, mixer1, 0);
+AudioConnection          patchCord10(envelope3, 0, mixer1, 2);
+AudioConnection          patchCord11(envelope5, 0, mixer2, 0);
+AudioConnection          patchCord12(envelope6, 0, mixer2, 1);
+AudioConnection          patchCord13(mixer2, 0, mixer3, 1);
+AudioConnection          patchCord14(mixer1, 0, mixer3, 0);
+AudioConnection          patchCord15(mixer3, 0, i2s1, 0);
+AudioConnection          patchCord16(mixer3, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=667.3333129882812,27.333335876464844
 // GUItool: end automatically generated code
+
 
 // PIN SETUP
 Encoder knobOne(0, 1);
@@ -115,17 +84,6 @@ Display display;
 
 Chrono metro;
 
-FmSynth fmSynth1(
-    &sine_fm1,
-    &sine_fm2,
-    &sine_fm3,
-    &envelope1,
-    &envelope2,
-    &envelope3,
-    &mixer5,
-    &mixer1,
-    &amp4);
-
 // // TODO: FIX ISSUE HERE
 // Encoder physicalEncoderArray[3] = {knobOne, knobTwo, knobSeven};
 
@@ -150,49 +108,14 @@ void HandleInputs(
     int &enc7Value,
     int &enc8Value);
 
-void setupFMSynth1();
-void setupFMSynth2();
-void setupWavefolderSynth1();
-void setupWavefolderSynth2();
-void setupDrumSynth1();
-void setupDrumSynth2();
+void setupSamplePlayback1();
 
 void noteHandling();
-
-#define NOTE_F2 87.31
-#define NOTE_A2 110.00
-#define NOTE_C3 130.81
-#define NOTE_F3 174.61
-#define NOTE_A3 220.00
-#define NOTE_C4 261.63
-
-float WAVESHAPE_EXAMPLE_1[17] = {
-    -0.588,
-    -0.579,
-    -0.549,
-    -0.488,
-    -0.396,
-    -0.320,
-    -0.228,
-    -0.122,
-    0,
-    0.122,
-    0.228,
-    0.320,
-    0.396,
-    0.488,
-    0.549,
-    0.579,
-    0.588};
-
-float WAVESHAPE_EXAMPLE_2[2] = {
-    -0.488,
-    0.549};
 
 void setup()
 {
   Serial.begin(9600);
-  Serial.println("David bit drum machine");
+  Serial.println("David bit drum machine - sampler version");
 
   display.startup();
 
@@ -210,20 +133,37 @@ void setup()
   // turn on the output
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
+ 
+  setupSdPlayer();
 
-  fmSynth1.init();
-  // sine_fm1.frequency(220);
-  // sine_fm1.amplitude(0.7);
-
-  // delay(1000);
-
-  // setupWavefolderSynth1();
-  // setupWavefolderSynth2();
-  // setupDrumSynth1();
-  // setupDrumSynth2();
-
-  knobSeven.write(600);
+  knobEight.write(600);
 }
+
+void setupSdPlayer()
+{
+  SPI.setMOSI(SDCARD_MOSI_PIN);
+  SPI.setSCK(SDCARD_SCK_PIN);
+  if (!(SD.begin(SDCARD_CS_PIN)))
+  {
+    while (1)
+    {
+      Serial.println("Unable to access the SD card");
+      delay(500);
+    }
+  }
+
+  mixer1.gain(0, 0.6);
+  mixer1.gain(1, 0.6);
+  mixer1.gain(2, 0.6);
+  mixer1.gain(3, 0.6);
+
+  mixer2.gain(0, 0.6);
+  mixer2.gain(1, 0.6);
+
+  mixer3.gain(0, 0.8);
+  mixer3.gain(1, 0.8);
+}
+
 
 int positionOne = -999;
 int positionTwo = -999;
@@ -279,10 +219,7 @@ void loop()
   }
 
   HandleInputs(enc1Value, enc2Value, enc3Value, enc4Value, enc5Value, enc6Value, enc7Value, enc8Value);
-  // fmSynth1.op1.frequency(450);
-  // fmSynth1.op1Env.noteOn();
-  // delay(1000);
-  // fmSynth1.op1Env.noteOff();
+
   // if a character is sent from the serial monitor,
   // reset both back to zero.
   if (Serial.available())
@@ -343,6 +280,7 @@ void HandleInputs(
   HandleEncoder(knobSix, oldEncoderValuesArray[5], enc6Value, update);
   HandleEncoder(knobSeven, oldEncoderValuesArray[6], enc7Value, update);
   HandleEncoder(knobEight, oldEncoderValuesArray[7], enc8Value, update);
+
 
   if (bounce1.update())
   {
@@ -410,7 +348,7 @@ void HandleInputs(
 
   if (metroOn)
   {
-    if (metro.hasPassed(enc7Value))
+    if (metro.hasPassed(enc8Value))
     {
       metro.restart(); // Restart the chronometer.
 
@@ -425,9 +363,9 @@ void HandleInputs(
 
       noteHandling();
     }
-    if (metro.hasPassed(enc7Value * 0.7))
+    if (metro.hasPassed(enc8Value * 0.7))
     {
-      fmSynth1.noteOff();
+      // fmSynth1.noteOff();
       // fmSynth1.op2Env.noteOff();
       // fmSynth1.op3Env.noteOff();
       // fmSynth2.op1Env.noteOff();
@@ -453,92 +391,41 @@ void HandleInputs(
   }
 }
 
+const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "BD2.WAV", "SNR2.WAV", "HH2.WAV"};
+
 void noteHandling()
 {
-  // Steps 0 - 7
-  if (counter < 8)
+  // BD1.WAV
+  if (bitRead(enc1Value, counter) == 1)
   {
-    // FM Synth 1
-    if (bitRead(enc1Value, counter) == 1)
-    {
-      // Serial.println(fmSynth1.getOp1Freq());
-
-      fmSynth1.noteOn();
-      // fmSynth1.op2Env.noteOn();
-      // fmSynth1.op2Env.noteOn();
-    }
-    // FM Synth 2
-    if (bitRead(enc3Value, counter) == 1)
-    {
-      // fmSynth2.op1Env.noteOn();
-      // fmSynth2.op2Env.noteOn();
-      // fmSynth2.op2Env.noteOn();
-    }
-    // Wavefolder Synth 1
-    if (bitRead(0, counter) == 1)
-    {
-      // envelope8.noteOn();
-    }
-
-    // Wavefolder Synth 2
-    if (bitRead(0, counter) == 1)
-    {
-      // envelope7.noteOn();
-    }
-
-    // Drum Synth 2
-    if (bitRead(0, counter) == 1)
-    {
-      // drum1.noteOn();
-    }
-
-    // Drum Synth 2
-    if (bitRead(0, counter) == 1)
-    {
-      // drum2.noteOn();
-    }
+    playSdWav1.play(filelist[0]);
   }
-  else if (counter > 7)
+  // SN1.WAV
+  if (bitRead(enc3Value, counter) == 1)
   {
-    int newCounter = counter - 8;
-    // FM Synth 1
-    if (bitRead(enc2Value, newCounter) == 1)
-    {
-      fmSynth1.noteOn();
-    }
-    // FM Synth 2
-    // if (bitRead(enc4Value, newCounter) == 1)
-    // {
-    //   // fmSynth2.op1Env.noteOn();
-    //   // fmSynth2.op2Env.noteOn();
-    //   // fmSynth2.op2Env.noteOn();
-    // }
-    // Wavefolder Synth 1
-    if (bitRead(0, newCounter) == 1)
-    {
-      // envelope8.noteOn();
-      // if (metro.hasPassed(enc7Value * 0.7))
-      // {
-      //   envelope8.noteOff();
-      // }
-    }
+    playSdWav1.play(filelist[1]);
+  }
+  // HH1.WAV
+  if (bitRead(enc5Value, counter) == 1)
+  {
+    playSdWav1.play(filelist[2]);
+  }
 
-    // Wavefolder Synth 2
-    if (bitRead(0, newCounter) == 1)
-    {
-      // envelope7.noteOn();
-    }
+  // BD2.WAV
+  if (bitRead(enc2Value, counter) == 1)
+  {
+    playSdWav1.play(filelist[3]);
+  }
 
-    // Drum Synth 2
-    if (bitRead(0, newCounter) == 1)
-    {
-      // drum1.noteOn();
-    }
+  // SNR2.WAV
+  if (bitRead(enc4Value, counter) == 1)
+  {
+    playSdWav1.play(filelist[4]);
+  }
 
-    // Drum Synth 2
-    if (bitRead(0, newCounter) == 1)
-    {
-      // drum2.noteOn();
-    }
+  // HH2.WAV
+  if (bitRead(enc6Value, counter) == 1)
+  {
+    playSdWav1.play(filelist[5]);
   }
 }
