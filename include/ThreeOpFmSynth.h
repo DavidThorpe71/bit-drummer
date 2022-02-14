@@ -1,20 +1,20 @@
 /*
-  FmSynth.h - Library for creating an FM Synth.
+  ThreeOpFmSynth.h - Library for creating an FM Synth.
   Created by David Thorpe 17th October 2021
 */
-#ifndef FMSYNTH_H
-#define FMSYNTH_H
+#ifndef THREEOPFMSYNTH_H
+#define THREEOPFMSYNTH_H
 
 #include <Arduino.h>
 #include <Audio.h>
 
-class FmSynth
+class ThreeOpFmSynth
 {
 public:
-  FmSynth(
-      AudioSynthWaveformSineModulated *iop1,
-      AudioSynthWaveformSineModulated *iop2,
-      AudioSynthWaveformSineModulated *iop3,
+  ThreeOpFmSynth(
+      AudioSynthWaveformModulated *iop1,
+      AudioSynthWaveformModulated *iop2,
+      AudioSynthWaveform *iop3,
       AudioEffectEnvelope *iopEnv1,
       AudioEffectEnvelope *iopEnv2,
       AudioEffectEnvelope *iopEnv3,
@@ -55,9 +55,9 @@ public:
   void setOP3Amp(float level);
 
 private:
-  AudioSynthWaveformSineModulated *op1;
-  AudioSynthWaveformSineModulated *op2;
-  AudioSynthWaveformSineModulated *op3;
+  AudioSynthWaveformModulated *op1;
+  AudioSynthWaveformModulated *op2;
+  AudioSynthWaveform *op3;
   AudioEffectEnvelope *op1Env;
   AudioEffectEnvelope *op2Env;
   AudioEffectEnvelope *op3Env;

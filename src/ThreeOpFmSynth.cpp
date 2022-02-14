@@ -1,6 +1,6 @@
-#include <FmSynth.h>
+#include <ThreeOpFmSynth.h>
 
-void FmSynth::init()
+void ThreeOpFmSynth::init()
 {
   Serial.println(F("FmSynth init called"));
 
@@ -21,52 +21,52 @@ void FmSynth::init()
   setOP3Amp(0);
 }
 
-void FmSynth::noteOn()
+void ThreeOpFmSynth::noteOn()
 {
   (*op1Env).noteOn();
   (*op2Env).noteOn();
   (*op3Env).noteOn();
 }
 
-void FmSynth::noteOff()
+void ThreeOpFmSynth::noteOff()
 {
   (*op1Env).noteOff();
   (*op2Env).noteOff();
   (*op3Env).noteOff();
 }
 
-void FmSynth::setOp1Freq(float freq)
+void ThreeOpFmSynth::setOp1Freq(float freq)
 {
   // this->op1Freq = freq;
   (*op1).frequency(freq);
 }
 
-void FmSynth::setOp2FreqRatio(float ratio)
+void ThreeOpFmSynth::setOp2FreqRatio(float ratio)
 {
   (*op2).frequency(250);
 }
 
-void FmSynth::setOp3FreqRatio(float ratio)
+void ThreeOpFmSynth::setOp3FreqRatio(float ratio)
 {
   (*op3).frequency(800);
 }
 
-void FmSynth::setOp2ToOp1(float modAmount)
+void ThreeOpFmSynth::setOp2ToOp1(float modAmount)
 {
   (*op1FmInMixer).gain(0, modAmount);
 }
 
-void FmSynth::setOp3ToOp1(float modAmount)
+void ThreeOpFmSynth::setOp3ToOp1(float modAmount)
 {
   (*op1FmInMixer).gain(1, modAmount);
 }
 
-void FmSynth::setOp3ToOp2(float modAmount)
+void ThreeOpFmSynth::setOp3ToOp2(float modAmount)
 {
   (*op2FmInAmp).gain(modAmount);
 }
 
-void FmSynth::setOP1Env(float a, float d, float r)
+void ThreeOpFmSynth::setOP1Env(float a, float d, float r)
 {
   (*op1Env).attack(a);
   (*op1Env).decay(d);
@@ -74,7 +74,7 @@ void FmSynth::setOP1Env(float a, float d, float r)
   (*op1Env).release(r);
 }
 
-void FmSynth::setOP2Env(float a, float d, float r)
+void ThreeOpFmSynth::setOP2Env(float a, float d, float r)
 {
   (*op2Env).attack(a);
   (*op2Env).decay(d);
@@ -82,7 +82,7 @@ void FmSynth::setOP2Env(float a, float d, float r)
   (*op2Env).release(r);
 }
 
-void FmSynth::setOP3Env(float a, float d, float r)
+void ThreeOpFmSynth::setOP3Env(float a, float d, float r)
 {
   (*op3Env).attack(a);
   (*op3Env).decay(d);
@@ -90,17 +90,17 @@ void FmSynth::setOP3Env(float a, float d, float r)
   (*op3Env).release(r);
 }
 
-void FmSynth::setOP1Amp(float level)
+void ThreeOpFmSynth::setOP1Amp(float level)
 {
   (*outputAmp).gain(0, level);
 }
 
-void FmSynth::setOP2Amp(float level)
+void ThreeOpFmSynth::setOP2Amp(float level)
 {
   (*outputAmp).gain(1, level);
 }
 
-void FmSynth::setOP3Amp(float level)
+void ThreeOpFmSynth::setOP3Amp(float level)
 {
   (*outputAmp).gain(2, level);
 }
