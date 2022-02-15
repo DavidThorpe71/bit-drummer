@@ -152,16 +152,18 @@ void setupSdPlayer()
     }
   }
 
-  mixer1.gain(0, 0.8);
-  mixer1.gain(1, 0.8);
-  mixer1.gain(2, 0.8);
-  mixer1.gain(3, 0.8);
+  mixer1.gain(0, 1);
+  mixer1.gain(1, 1);
+  mixer1.gain(2, 1);
+  mixer1.gain(3, 1);
 
-  mixer2.gain(0, 0.8);
-  mixer2.gain(1, 0.8);
+  mixer2.gain(0, 1);
+  mixer2.gain(1, 1);
 
-  mixer3.gain(0, 0.8);
-  mixer3.gain(1, 0.8);
+  mixer3.gain(0, 1);
+  mixer3.gain(1, 1);
+
+  envelope1.decay(100);
 }
 
 int positionOne = -999;
@@ -240,9 +242,9 @@ void HandleEncoder(Encoder physicalEncoder, int &oldEncoderValue, int &encoderVa
 {
   int newEncoderValue = physicalEncoder.read();
 
-  if (newEncoderValue >= 1020)
+  if (newEncoderValue >= 560)
   {
-    physicalEncoder.write(1020);
+    physicalEncoder.write(560);
   }
 
   if (newEncoderValue <= 0)
@@ -252,7 +254,7 @@ void HandleEncoder(Encoder physicalEncoder, int &oldEncoderValue, int &encoderVa
 
   if (newEncoderValue != oldEncoderValue)
   {
-    encoderValue = newEncoderValue / 4;
+    encoderValue = newEncoderValue / 4 + 127;
     update = true;
 
     oldEncoderValue = newEncoderValue;
@@ -386,25 +388,25 @@ void HandleInputs(
         enc8Value);
     Serial.print("1: ");
     Serial.print(enc1Value);
-    Serial.print(", 2: ");
-    Serial.print(enc2Value);
-    Serial.print(", 3: ");
-    Serial.print(enc3Value);
-    Serial.print(", 4: ");
-    Serial.print(enc4Value);
-    Serial.print(", 5: ");
-    Serial.print(enc5Value);
-    Serial.print(", 6: ");
-    Serial.print(enc6Value);
-    Serial.print(", 7: ");
-    Serial.print(enc7Value);
-    Serial.print(", 8: ");
-    Serial.print(enc8Value);
+    // Serial.print(", 2: ");
+    // Serial.print(enc2Value);
+    // Serial.print(", 3: ");
+    // Serial.print(enc3Value);
+    // Serial.print(", 4: ");
+    // Serial.print(enc4Value);
+    // Serial.print(", 5: ");
+    // Serial.print(enc5Value);
+    // Serial.print(", 6: ");
+    // Serial.print(enc6Value);
+    // Serial.print(", 7: ");
+    // Serial.print(enc7Value);
+    // Serial.print(", 8: ");
+    // Serial.print(enc8Value);
     Serial.println();
   }
 }
 
-const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "BD2.WAV", "SNR2.WAV", "HH2.WAV"};
+const char *filelist[6] = {"ONE.WAV", "TWO.WAV", "THREE.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 
 void noteHandling()
 {
@@ -417,34 +419,34 @@ void noteHandling()
   // SN1.WAV
   if (bitRead(enc3Value, counter) == 1)
   {
-    envelope2.noteOn();
-    playSdWav2.play(filelist[1]);
+    envelope1.noteOn();
+    playSdWav1.play(filelist[1]);
   }
   // HH1.WAV
   if (bitRead(enc5Value, counter) == 1)
   {
-    envelope3.noteOn();
-    playSdWav3.play(filelist[2]);
+    envelope1.noteOn();
+    playSdWav1.play(filelist[2]);
   }
 
   // BD2.WAV
   if (bitRead(enc2Value, counter) == 1)
   {
-    envelope4.noteOn();
-    playSdWav4.play(filelist[3]);
+    envelope1.noteOn();
+    playSdWav1.play(filelist[3]);
   }
 
   // SNR2.WAV
   if (bitRead(enc4Value, counter) == 1)
   {
-    envelope5.noteOn();
-    playSdWav5.play(filelist[4]);
+    envelope1.noteOn();
+    playSdWav1.play(filelist[4]);
   }
 
   // HH2.WAV
   if (bitRead(enc6Value, counter) == 1)
   {
-    envelope6.noteOn();
-    playSdWav6.play(filelist[5]);
+    envelope1.noteOn();
+    playSdWav1.play(filelist[5]);
   }
 }
