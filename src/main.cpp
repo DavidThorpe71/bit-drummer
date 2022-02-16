@@ -206,8 +206,33 @@ int encoderValuesArray[8] = {
     enc7Value,
     enc8Value};
 
-int mode = 0;
+int e1mode = 0;
+int e2mode = 0;
+int e3mode = 0;
+int e4mode = 0;
+int e5mode = 0;
+int e6mode = 0;
+int e7mode = 0;
+int e8mode = 0;
+
 int originalAudioMemUsage = 0;
+
+int e1m0 = 0;
+int e1m1 = 0;
+int e2m0 = 0;
+int e2m1 = 0;
+int e3m0 = 0;
+int e3m1 = 0;
+int e4m0 = 0;
+int e4m1 = 0;
+int e5m0 = 0;
+int e5m1 = 0;
+int e6m0 = 0;
+int e6m1 = 0;
+int e7m0 = 0;
+int e7m1 = 0;
+int e8m0 = 0;
+int e8m1 = 0;
 
 void loop()
 {
@@ -238,26 +263,55 @@ void loop()
   }
 }
 
-void HandleEncoder(Encoder physicalEncoder, int &oldEncoderValue, int &encoderValue, bool &update)
+void HandleEncoder(
+  Encoder &physicalEncoder,
+  int &oldEncoderValue,
+  int &encoderValue,
+  bool &update,
+  int &mode,
+  int &mode0lastValue,
+  int &mode1lastValue)
 {
-  int newEncoderValue = physicalEncoder.read();
-
-  if (newEncoderValue >= 560)
+  int readValue = physicalEncoder.read();
+  int newEncoderValue = readValue / 4;
+  if (newEncoderValue > 127)
   {
-    physicalEncoder.write(560);
+    physicalEncoder.write(512);
   }
 
-  if (newEncoderValue <= 0)
+  if (newEncoderValue < 0)
   {
     physicalEncoder.write(0);
   }
 
   if (newEncoderValue != oldEncoderValue)
   {
-    encoderValue = newEncoderValue / 4 + 127;
+    encoderValue = newEncoderValue;
+
+    if (mode == 0) {
+      mode0lastValue = readValue;
+    }
+
+    if (mode == 1) {
+      mode1lastValue = readValue;
+    }
+
     update = true;
 
     oldEncoderValue = newEncoderValue;
+  }
+}
+
+void ChangeMode(int &mode, Encoder &physicalEncoder, int mode0LastValue, int mode1LastValue) {
+  if (mode == 0)
+  {
+    mode = 1;
+    physicalEncoder.write(mode1LastValue);
+  }
+  else
+  {
+    mode = 0;
+    physicalEncoder.write(mode0LastValue);
   }
 }
 
@@ -273,14 +327,14 @@ void HandleInputs(
 {
   bool update = false;
 
-  HandleEncoder(knobOne, oldEncoderValuesArray[0], enc1Value, update);
-  HandleEncoder(knobTwo, oldEncoderValuesArray[1], enc2Value, update);
-  HandleEncoder(knobThree, oldEncoderValuesArray[2], enc3Value, update);
-  HandleEncoder(knobFour, oldEncoderValuesArray[3], enc4Value, update);
-  HandleEncoder(knobFive, oldEncoderValuesArray[4], enc5Value, update);
-  HandleEncoder(knobSix, oldEncoderValuesArray[5], enc6Value, update);
-  HandleEncoder(knobSeven, oldEncoderValuesArray[6], enc7Value, update);
-  HandleEncoder(knobEight, oldEncoderValuesArray[7], enc8Value, update);
+  HandleEncoder(knobOne, oldEncoderValuesArray[0], enc1Value, update, e1mode, e1m0, e1m1);
+  HandleEncoder(knobTwo, oldEncoderValuesArray[1], enc2Value, update, e2mode, e2m0, e2m1);
+  HandleEncoder(knobThree, oldEncoderValuesArray[2], enc3Value, update, e3mode, e3m0, e3m1);
+  // HandleEncoder(knobFour, oldEncoderValuesArray[3], enc4Value, update);
+  // HandleEncoder(knobFive, oldEncoderValuesArray[4], enc5Value, update);
+  // HandleEncoder(knobSix, oldEncoderValuesArray[5], enc6Value, update);
+  // HandleEncoder(knobSeven, oldEncoderValuesArray[6], enc7Value, update);
+  HandleEncoder(knobEight, oldEncoderValuesArray[7], enc8Value, update, e8mode, e8m0, e8m1);
 
   if (bounce1.update())
   {
@@ -288,25 +342,26 @@ void HandleInputs(
     if (bounce1.read() == HIGH)
     {
       Serial.println("button1 clicked");
-      if (mode < 2)
-      {
-        mode++;
-      }
-      else
-      {
-        mode = 0;
-      }
+      ChangeMode(e1mode, knobOne, e1m0, e1m1);
     }
   }
 
   if (bounce2.update())
   {
-    Serial.println("button2 clicked");
+    if (bounce2.read() == HIGH)
+    {
+      Serial.println("button2 clicked");
+      ChangeMode(e2mode, knobTwo, e2m0, e2m1);
+    }
   }
 
   if (bounce3.update())
   {
-    Serial.println("button3 clicked");
+    if (bounce3.read() == HIGH)
+    {
+      Serial.println("button3 clicked");
+      ChangeMode(e3mode, knobThree, e3m0, e3m1);
+    }
   }
 
   if (bounce4.update())
@@ -376,7 +431,7 @@ void HandleInputs(
   if (update)
   {
     display.displayEncoders(
-        mode,
+        e1mode,
         metroOn,
         enc1Value,
         enc2Value,
@@ -386,8 +441,18 @@ void HandleInputs(
         enc6Value,
         enc7Value,
         enc8Value);
-    Serial.print("1: ");
+         
+    Serial.print("knobOne: ");
+    Serial.print(knobOne.read());
+    Serial.print("; oldEncoderValuesArray[0]: ");
+    Serial.print(oldEncoderValuesArray[0]);
+    Serial.print("; enc1Value: ");
     Serial.print(enc1Value);
+
+    Serial.println();
+
+    // Serial.print("1: ");
+    // Serial.print(enc1Value);
     // Serial.print(", 2: ");
     // Serial.print(enc2Value);
     // Serial.print(", 3: ");
@@ -408,45 +473,60 @@ void HandleInputs(
 
 const char *filelist[6] = {"ONE.WAV", "TWO.WAV", "THREE.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 
+int rightRotate(int n, unsigned int d) {
+    return (n >> d)|(n << (8 - d));
+}
+
+int getPattern(int encoderValue, int clickedEnoderValue) {
+  if (encoderValue == 0) {
+    return 0;
+  }
+  return rightRotate(encoderValue / 4 + 127, clickedEnoderValue / 4);
+}
+
+
+
+
 void noteHandling()
 {
   // BD1.WAV
-  if (bitRead(enc1Value, counter) == 1)
+  if (bitRead(getPattern(e1m0, e1m1), counter) == 1)
   {
+    Serial.println(getPattern(e1m0, e1m1));
     envelope1.noteOn();
     playSdWav1.play(filelist[0]);
   }
   // SN1.WAV
-  if (bitRead(enc3Value, counter) == 1)
+  if (bitRead(getPattern(e3m0, e3m1), counter) == 1)
   {
-    envelope1.noteOn();
-    playSdWav1.play(filelist[1]);
+    envelope2.noteOn();
+    playSdWav2.play(filelist[1]);
   }
-  // HH1.WAV
-  if (bitRead(enc5Value, counter) == 1)
-  {
-    envelope1.noteOn();
-    playSdWav1.play(filelist[2]);
-  }
+  // // HH1.WAV
+  // if (bitRead(getPattern(enc5Value), counter) == 1)
+  // {
+  //   envelope1.noteOn();
+  //   playSdWav1.play(filelist[2]);
+  // }
 
-  // BD2.WAV
-  if (bitRead(enc2Value, counter) == 1)
-  {
-    envelope1.noteOn();
-    playSdWav1.play(filelist[3]);
-  }
+  // // BD2.WAV
+  // if (bitRead(getPattern(enc2Value), counter) == 1)
+  // {
+  //   envelope1.noteOn();
+  //   playSdWav1.play(filelist[3]);
+  // }
 
-  // SNR2.WAV
-  if (bitRead(enc4Value, counter) == 1)
-  {
-    envelope1.noteOn();
-    playSdWav1.play(filelist[4]);
-  }
+  // // SNR2.WAV
+  // if (bitRead(getPattern(enc4Value), counter) == 1)
+  // {
+  //   envelope1.noteOn();
+  //   playSdWav1.play(filelist[4]);
+  // }
 
-  // HH2.WAV
-  if (bitRead(enc6Value, counter) == 1)
-  {
-    envelope1.noteOn();
-    playSdWav1.play(filelist[5]);
-  }
+  // // HH2.WAV
+  // if (bitRead(getPattern(enc6Value), counter) == 1)
+  // {
+  //   envelope1.noteOn();
+  //   playSdWav1.play(filelist[5]);
+  // }
 }
