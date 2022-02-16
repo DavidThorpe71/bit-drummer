@@ -348,6 +348,7 @@ void HandleInputs(
 
   if (bounce2.update())
   {
+    update = true;
     if (bounce2.read() == HIGH)
     {
       Serial.println("button2 clicked");
@@ -357,6 +358,7 @@ void HandleInputs(
 
   if (bounce3.update())
   {
+    update = true;
     if (bounce3.read() == HIGH)
     {
       Serial.println("button3 clicked");
@@ -493,22 +495,21 @@ void noteHandling()
   // BD1.WAV
   if (bitRead(getPattern(e1m0, e1m1), counter) == 1)
   {
-    Serial.println(getPattern(e1m0, e1m1));
     envelope1.noteOn();
     playSdWav1.play(filelist[0]);
   }
   // SN1.WAV
-  if (bitRead(getPattern(e3m0, e3m1), counter) == 1)
+  if (bitRead(getPattern(e2m0, e2m1), counter) == 1)
   {
     envelope2.noteOn();
     playSdWav2.play(filelist[1]);
   }
   // // HH1.WAV
-  // if (bitRead(getPattern(enc5Value), counter) == 1)
-  // {
-  //   envelope1.noteOn();
-  //   playSdWav1.play(filelist[2]);
-  // }
+  if (bitRead(getPattern(e3m0, e3m1), counter) == 1)
+  {
+    envelope3.noteOn();
+    playSdWav3.play(filelist[2]);
+  }
 
   // // BD2.WAV
   // if (bitRead(getPattern(enc2Value), counter) == 1)
