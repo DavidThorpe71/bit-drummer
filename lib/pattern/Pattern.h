@@ -12,5 +12,7 @@ class Pattern
 public:
   Pattern() {}
   int add (int a, int b);
+  int get(int patternIndex, int patternRotate);
+  int rightRotate(int n, unsigned int d);
 };
 #endif

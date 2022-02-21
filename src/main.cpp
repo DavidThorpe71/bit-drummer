@@ -13,6 +13,7 @@
 #include <Bounce.h>
 #include <Display.h>
 #include <FmSynth.h>
+#include <Pattern.h>
 
 #include <Audio.h>
 #include <Wire.h>
@@ -234,30 +235,7 @@ int e7m1 = 0;
 int e8m0 = 0;
 int e8m1 = 0;
 
-const int patternArray[129] = {
-  0,1,3,5,9,17,33,65,129,7,11,13,19,21,25,
-  35,37,41,49,67,69,73,81,97,131,133,137,
-  145,161,193,15,23,27,29,39,43,45,51,53,
-  57,71,75,77,83,85,89,99,101,105,113,135,
-  139,141,147,149,153,163,165,169,177,195,
-  197,201,209,225,31,47,55,59,61,79,87,91,
-  93,103,107,109,115,117,121,143,151,155,
-  157,167,171,173,179,181,185,199,203,205,
-  211,213,217,227,229,233,241,63,95,111,
-  119,123,125,159,175,183,187,189,207,215,
-  219,221,231,235,237,243,245,249,127,191,
-  223,239,247,251,253,255};
-
-int rightRotate(int n, unsigned int d) {
-    return (n << d)|(n >> (8 - d));
-}
-
-int getPattern(int encoderValue, int clickedEnoderValue) {
-  if (encoderValue == 0) {
-    return 0;
-  }
-  return rightRotate(patternArray[encoderValue / 4], clickedEnoderValue / 4);
-}
+Pattern pattern;
 
 void loop()
 {
@@ -470,7 +448,7 @@ void HandleInputs(
         enc8Value);
          
     Serial.print("knobOne: ");
-    int myValue = getPattern(e1m0, e1m1);
+    int myValue = pattern.get(e1m0, e1m1);
     Serial.print(bitRead(myValue,0));
     Serial.print(bitRead(myValue,1));
     Serial.print(bitRead(myValue,2));
@@ -505,44 +483,43 @@ void HandleInputs(
 const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 // const char *filelist[6] = {"ONE.WAV", "TWO.WAV", "THREE.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 
-
 void noteHandling()
 {
   // BD1.WAV
-  if (bitRead(getPattern(e1m0, e1m1), counter) == 1)
+  if (bitRead(pattern.get(e1m0, e1m1), counter) == 1)
   {
     envelope1.noteOn();
     playSdWav1.play(filelist[0]);
   }
   // SN1.WAV
-  if (bitRead(getPattern(e2m0, e2m1), counter) == 1)
+  if (bitRead(pattern.get(e2m0, e2m1), counter) == 1)
   {
     envelope2.noteOn();
     playSdWav2.play(filelist[1]);
   }
   // // HH1.WAV
-  if (bitRead(getPattern(e3m0, e3m1), counter) == 1)
+  if (bitRead(pattern.get(e3m0, e3m1), counter) == 1)
   {
     envelope3.noteOn();
     playSdWav3.play(filelist[2]);
   }
 
   // // BD2.WAV
-  // if (bitRead(getPattern(enc2Value), counter) == 1)
+  // if (bitRead(pattern.get(enc2Value), counter) == 1)
   // {
   //   envelope1.noteOn();
   //   playSdWav1.play(filelist[3]);
   // }
 
   // // SNR2.WAV
-  // if (bitRead(getPattern(enc4Value), counter) == 1)
+  // if (bitRead(pattern.get(enc4Value), counter) == 1)
   // {
   //   envelope1.noteOn();
   //   playSdWav1.play(filelist[4]);
   // }
 
   // // HH2.WAV
-  // if (bitRead(getPattern(enc6Value), counter) == 1)
+  // if (bitRead(pattern.get(enc6Value), counter) == 1)
   // {
   //   envelope1.noteOn();
   //   playSdWav1.play(filelist[5]);
