@@ -22,6 +22,7 @@ void test_pattern_no_rotate(void) {
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 6));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 7));
 }
+
 void test_pattern_one_rotate(void) {
     int rotatedPattern = pattern.get(4, 4);
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 0));
@@ -46,13 +47,11 @@ void test_pattern_eight_rotate(void) {
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 7));
 }
 
-int main(int argc, char **argv) {
-    UNITY_BEGIN();
+int patternTests() {
     RUN_TEST(test_function_calculator_addition);
     RUN_TEST(test_pattern_no_rotate);
     RUN_TEST(test_pattern_one_rotate);
     RUN_TEST(test_pattern_eight_rotate);
-    UNITY_END();
 
     return 0;
 }
