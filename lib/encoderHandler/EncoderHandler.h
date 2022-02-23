@@ -7,17 +7,25 @@
 #define ENCODERHANDLER_H
 
 #include <BitDrumEncoder.h>
+#include <Pattern.h>
 
 class EncoderHandler
 {
 public:
   BitDrumEncoder *physicalEncoder;
+  Pattern pattern;
   int mode;
   int mode0LastValue;
   int mode1LastValue;
 
-  EncoderHandler(BitDrumEncoder *encoderInstance, int mode, int mode0lv, int mode1lv);
+  EncoderHandler(
+    BitDrumEncoder *encoderInstance,
+    Pattern pattern,
+    int mode, 
+    int mode0lv, 
+    int mode1lv);
 
   void ChangeMode();
+  int getPattern();
 };
 #endif

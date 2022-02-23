@@ -2,6 +2,8 @@
 
 class MockBitDrumEncoder: public BitDrumEncoder 
 {
+public:
+    MockBitDrumEncoder() {}
     void write(int value) {
         encoderValue = value;
     };

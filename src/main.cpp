@@ -14,6 +14,8 @@
 #include <Display.h>
 #include <FmSynth.h>
 #include <Pattern.h>
+#include <EncoderHandler.h>
+#include <BitDrumEncoder.h>
 
 #include <Audio.h>
 #include <Wire.h>
@@ -136,6 +138,11 @@ void setup()
   sgtl5000_1.volume(0.5);
 
   setupSdPlayer();
+  setupMixer();
+
+  BitDrumEncoder* encoder1 = new BitDrumEncoder(knobOne);
+  EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, 0, 0, 0);
+
 
   knobEight.write(600);
 }
@@ -152,7 +159,10 @@ void setupSdPlayer()
       delay(500);
     }
   }
+}
 
+void setupMixer() 
+{
   mixer1.gain(0, 1);
   mixer1.gain(1, 1);
   mixer1.gain(2, 1);

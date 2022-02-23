@@ -3,5 +3,10 @@ To run tests (on the native environment):
 platformio test -e native
 ```
 
+To update libs:
+```
+pio lib -e native install file://lib/encoderHandler -f
+```
+
 More information about PlatformIO Unit Testing:
 - https://docs.platformio.org/page/plus/unit-testing.html
