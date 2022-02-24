@@ -12,14 +12,14 @@
 class EncoderHandler
 {
 public:
-  BitDrumEncoder *physicalEncoder;
+  BitDrumEncoderAbstract *physicalEncoder;
   Pattern pattern;
   int mode;
   int mode0LastValue;
   int mode1LastValue;
 
   EncoderHandler(
-    BitDrumEncoder *encoderInstance,
+    BitDrumEncoderAbstract *encoderInstance,
     Pattern pattern,
     int mode, 
     int mode0lv, 

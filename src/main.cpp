@@ -1,8 +1,6 @@
 #include <Arduino.h>
-
 #include <Adafruit_SSD1306.h>
 #include <splash.h>
-
 #include <Audio.h>
 #include <Wire.h>
 #include <SPI.h>
@@ -12,16 +10,9 @@
 #include <Chrono.h>
 #include <Bounce.h>
 #include <Display.h>
-#include <FmSynth.h>
 #include <Pattern.h>
 #include <EncoderHandler.h>
 #include <BitDrumEncoder.h>
-
-#include <Audio.h>
-#include <Wire.h>
-#include <SPI.h>
-#include <SD.h>
-#include <SerialFlash.h>
 
 // GUItool: begin automatically generated code
 AudioPlaySdWav playSdWav5;     // xy=378.8888804117838,458.88888041178376

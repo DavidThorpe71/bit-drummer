@@ -2,7 +2,7 @@
 #include <iostream>
 
 EncoderHandler::EncoderHandler(
-  BitDrumEncoder *encoderInstance, 
+  BitDrumEncoderAbstract *encoderInstance, 
   Pattern pattern, 
   int m,
   int mode0lv,
@@ -20,12 +20,12 @@ void EncoderHandler::ChangeMode()
   if (mode == 0)
   {
     mode = 1;
-    physicalEncoder->write(mode1LastValue * 4);
+    physicalEncoder->write(mode1LastValue);
   }
   else
   {
     mode = 0;
-    physicalEncoder->write(mode0LastValue * 4);
+    physicalEncoder->write(mode0LastValue);
   }
 };
 
@@ -39,8 +39,7 @@ int EncoderHandler::getPattern()
 
 void EncoderHandler::handleChange()
 {
-  int readValue = physicalEncoder->read();
-  int newEncoderValue = readValue / 4;
+  int newEncoderValue = physicalEncoder->read();
 
   if (newEncoderValue > 127)
   {

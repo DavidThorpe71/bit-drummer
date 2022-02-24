@@ -4,7 +4,7 @@
 #include <Pattern.h>
 #include <../lib/bitDrumEncoder/MockBitDrumEncoder.cpp>
 
-BitDrumEncoder* mockBitDrumEncoder = new MockBitDrumEncoder();
+BitDrumEncoderAbstract* mockBitDrumEncoder = new MockBitDrumEncoder();
 Pattern mockPattern;
 
 EncoderHandler* myEnc = new EncoderHandler(mockBitDrumEncoder, mockPattern, 0, 0, 0);
@@ -23,14 +23,10 @@ void test_method_get_pattern(void) {
 
 void test_method_handle_change(void) {
     mockBitDrumEncoder->write(0);
-
     TEST_ASSERT_EQUAL(0, myEnc->getPattern());
-    
-    mockBitDrumEncoder->write(4);
+    mockBitDrumEncoder->write(1);
     myEnc->handleChange();
-    // TEST_ASSERT_EQUAL(1, mockBitDrumEncoder->read());
     TEST_ASSERT_EQUAL(1, myEnc->getPattern());
-    
 }
 
 int encoderHandlerTests() {
