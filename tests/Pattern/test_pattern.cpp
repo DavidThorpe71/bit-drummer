@@ -8,7 +8,7 @@ int getBit(int byte, int position) {
 }
 
 void test_pattern_no_rotate(void) {
-    int rotatedPattern = pattern.rightRotate(4, 0);
+    int rotatedPattern = pattern.rightRotate(1, 0);
     TEST_ASSERT_EQUAL(1, getBit(rotatedPattern, 0));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 1));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 2));
@@ -20,7 +20,7 @@ void test_pattern_no_rotate(void) {
 }
 
 void test_pattern_one_rotate(void) {
-    int rotatedPattern = pattern.rightRotate(4, 4);
+    int rotatedPattern = pattern.rightRotate(1, 1);
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 0));
     TEST_ASSERT_EQUAL(1, getBit(rotatedPattern, 1));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 2));
@@ -32,7 +32,7 @@ void test_pattern_one_rotate(void) {
 }
 
 void test_pattern_eight_rotate(void) {
-    int rotatedPattern = pattern.rightRotate(4, 32);
+    int rotatedPattern = pattern.rightRotate(1, 8);
     TEST_ASSERT_EQUAL(1, getBit(rotatedPattern, 0));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 1));
     TEST_ASSERT_EQUAL(0, getBit(rotatedPattern, 2));

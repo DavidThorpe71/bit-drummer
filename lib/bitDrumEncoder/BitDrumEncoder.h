@@ -7,16 +7,14 @@
 #ifndef BITDRUMENCODER_H
 #define BITDRUMENCODER_H
 
-#include <Encoder.h>
 
-class BitDrumEncoder 
+
+class BitDrumEncoder
 {
-private:
-  Encoder physicalEncoder;
 public:
-    BitDrumEncoder(Encoder physicalEncoder);
-    void write(int value);
-    int read();
+    BitDrumEncoder();
+    virtual void write(int value);
+    virtual int read();
     int encoderValue;
 
 };

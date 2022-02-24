@@ -141,7 +141,7 @@ void setup()
   setupMixer();
 
   BitDrumEncoder* encoder1 = new BitDrumEncoder(knobOne);
-  EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, 0, 0, 0);
+  EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0);
 
 
   knobEight.write(600);

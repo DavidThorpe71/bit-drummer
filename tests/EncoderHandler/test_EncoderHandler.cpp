@@ -6,6 +6,7 @@
 
 BitDrumEncoder* mockBitDrumEncoder = new MockBitDrumEncoder();
 Pattern mockPattern;
+
 EncoderHandler* myEnc = new EncoderHandler(mockBitDrumEncoder, mockPattern, 0, 0, 0);
 
 void test_function_change_mode(void) {
@@ -20,9 +21,22 @@ void test_method_get_pattern(void) {
     TEST_ASSERT_EQUAL(0, myEnc->getPattern());
 }
 
+void test_method_handle_change(void) {
+    mockBitDrumEncoder->write(0);
+
+    TEST_ASSERT_EQUAL(0, myEnc->getPattern());
+    
+    mockBitDrumEncoder->write(4);
+    myEnc->handleChange();
+    // TEST_ASSERT_EQUAL(1, mockBitDrumEncoder->read());
+    TEST_ASSERT_EQUAL(1, myEnc->getPattern());
+    
+}
+
 int encoderHandlerTests() {
     RUN_TEST(test_function_change_mode);
     RUN_TEST(test_method_get_pattern);
+    RUN_TEST(test_method_handle_change);
 
     return 0;
 }

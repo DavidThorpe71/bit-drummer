@@ -27,5 +27,6 @@ public:
 
   void ChangeMode();
   int getPattern();
+  void handleChange();
 };
 #endif

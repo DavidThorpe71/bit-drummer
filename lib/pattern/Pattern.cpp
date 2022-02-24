@@ -15,7 +15,7 @@ const int patternArray[129] = {
   223,239,247,251,253,255};
 
 int Pattern::rightRotate(int patternIndex, unsigned int patternRotate) {
-    int n = patternArray[patternIndex / 4];
-    unsigned int d = patternRotate / 4;
+    int n = patternArray[patternIndex];
+    unsigned int d = patternRotate;
     return (n << d)|(n >> (8 - d));
 }

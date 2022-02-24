@@ -1,13 +1,12 @@
 #include <BitDrumEncoder.h>
 
-BitDrumEncoder::BitDrumEncoder(Encoder physicalEncoder) {
-    physicalEncoder = physicalEncoder
+BitDrumEncoder::BitDrumEncoder() {
 }
 
 int BitDrumEncoder::read() {
-    return physicalEncoder->read();
+    return 11;
 }
 
 void BitDrumEncoder::write(int encoderValue) {
-    physicalEncoder->write(encoderValue);
+    // physicalEncoder->write(encoderValue);
 }
