@@ -12,7 +12,8 @@
 #include <Display.h>
 #include <Pattern.h>
 #include <EncoderHandler.h>
-#include <BitDrumEncoder.h>
+#include <BitDrumEncoderAbstract.h>
+#include <BitDrumEncoder.cpp>
 
 // GUItool: begin automatically generated code
 AudioPlaySdWav playSdWav5;     // xy=378.8888804117838,458.88888041178376
@@ -78,9 +79,6 @@ Display display;
 
 Chrono metro;
 
-// // TODO: FIX ISSUE HERE
-// Encoder physicalEncoderArray[3] = {knobOne, knobTwo, knobSeven};
-
 Bounce bounce1 = Bounce(BUTTON1, 5);
 Bounce bounce2 = Bounce(BUTTON2, 5);
 Bounce bounce3 = Bounce(BUTTON3, 5);
@@ -105,6 +103,30 @@ void HandleInputs(
 void setupSdPlayer();
 
 void noteHandling();
+
+BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
+EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder2 = new BitDrumEncoder(&knobTwo,&bounce2);
+EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder3 = new BitDrumEncoder(&knobThree, &bounce3);
+EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder4 = new BitDrumEncoder(&knobFour, &bounce4);
+EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder5 = new BitDrumEncoder(&knobFive, &bounce5);
+EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
+EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
+EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0);
+
+BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
+EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0);
 
 void setup()
 {
@@ -131,11 +153,7 @@ void setup()
   setupSdPlayer();
   setupMixer();
 
-  BitDrumEncoder* encoder1 = new BitDrumEncoder(knobOne);
-  EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0);
-
-
-  knobEight.write(600);
+  encoder8->write(127);
 }
 
 void setupSdPlayer()
@@ -168,73 +186,9 @@ void setupMixer()
   envelope1.decay(100);
 }
 
-int positionOne = -999;
-int positionTwo = -999;
-int positionThree = -999;
-int positionFour = -999;
-int positionFive = -999;
-int positionSix = -999;
-int positionSeven = -999;
-int positionEight = -999;
-
-int oldEncoderValuesArray[8] = {
-    positionOne,
-    positionTwo,
-    positionThree,
-    positionFour,
-    positionFive,
-    positionSix,
-    positionSeven,
-    positionEight};
-
 int counter = 0;
 
-int enc1Value;
-int enc2Value;
-int enc3Value;
-int enc4Value;
-int enc5Value;
-int enc6Value;
-int enc7Value;
-int enc8Value;
-
-int encoderValuesArray[8] = {
-    enc1Value,
-    enc2Value,
-    enc3Value,
-    enc4Value,
-    enc5Value,
-    enc6Value,
-    enc7Value,
-    enc8Value};
-
-int e1mode = 0;
-int e2mode = 0;
-int e3mode = 0;
-int e4mode = 0;
-int e5mode = 0;
-int e6mode = 0;
-int e7mode = 0;
-int e8mode = 0;
-
 int originalAudioMemUsage = 0;
-
-int e1m0 = 0;
-int e1m1 = 0;
-int e2m0 = 0;
-int e2m1 = 0;
-int e3m0 = 0;
-int e3m1 = 0;
-int e4m0 = 0;
-int e4m1 = 0;
-int e5m0 = 0;
-int e5m1 = 0;
-int e6m0 = 0;
-int e6m1 = 0;
-int e7m0 = 0;
-int e7m1 = 0;
-int e8m0 = 0;
-int e8m1 = 0;
 
 Pattern pattern;
 
@@ -248,7 +202,7 @@ void loop()
     originalAudioMemUsage = audioMemUsage;
   }
 
-  HandleInputs(enc1Value, enc2Value, enc3Value, enc4Value, enc5Value, enc6Value, enc7Value, enc8Value);
+  HandleInputs();
 
   // if a character is sent from the serial monitor,
   // reset both back to zero.
@@ -256,99 +210,13 @@ void loop()
   {
     Serial.read();
     Serial.println("Reset all knobs to zero");
-    knobOne.write(0);
-    knobTwo.write(0);
-    knobThree.write(0);
-    knobFour.write(0);
-    knobFive.write(0);
-    knobSix.write(0);
-    knobSeven.write(0);
-    knobEight.write(0);
   }
 }
 
-void HandleEncoder(
-  Encoder &physicalEncoder,
-  int &oldEncoderValue,
-  int &encoderValue,
-  bool &update,
-  int &mode,
-  int &mode0lastValue,
-  int &mode1lastValue)
-{
-  int readValue = physicalEncoder.read();
-  int newEncoderValue = readValue / 4;
-  if (newEncoderValue > 127)
-  {
-    physicalEncoder.write(512);
-  }
-
-  if (newEncoderValue < 0)
-  {
-    physicalEncoder.write(0);
-  }
-
-  if (newEncoderValue != oldEncoderValue)
-  {
-    encoderValue = newEncoderValue;
-
-    if (mode == 0) {
-      mode0lastValue = readValue;
-    }
-
-    if (mode == 1) {
-      mode1lastValue = readValue;
-    }
-
-    update = true;
-
-    oldEncoderValue = newEncoderValue;
-  }
-}
-
-void ChangeMode(int &mode, Encoder &physicalEncoder, int mode0LastValue, int mode1LastValue) {
-  if (mode == 0)
-  {
-    mode = 1;
-    physicalEncoder.write(mode1LastValue);
-  }
-  else
-  {
-    mode = 0;
-    physicalEncoder.write(mode0LastValue);
-  }
-}
-
-void HandleInputs(
-    int &enc1Value,
-    int &enc2Value,
-    int &enc3Value,
-    int &enc4Value,
-    int &enc5Value,
-    int &enc6Value,
-    int &enc7Value,
-    int &enc8Value)
+void HandleInputs()
 {
   bool update = false;
-
-  HandleEncoder(knobOne, oldEncoderValuesArray[0], enc1Value, update, e1mode, e1m0, e1m1);
-  HandleEncoder(knobTwo, oldEncoderValuesArray[1], enc2Value, update, e2mode, e2m0, e2m1);
-  HandleEncoder(knobThree, oldEncoderValuesArray[2], enc3Value, update, e3mode, e3m0, e3m1);
-  // HandleEncoder(knobFour, oldEncoderValuesArray[3], enc4Value, update);
-  // HandleEncoder(knobFive, oldEncoderValuesArray[4], enc5Value, update);
-  // HandleEncoder(knobSix, oldEncoderValuesArray[5], enc6Value, update);
-  // HandleEncoder(knobSeven, oldEncoderValuesArray[6], enc7Value, update);
-  HandleEncoder(knobEight, oldEncoderValuesArray[7], enc8Value, update, e8mode, e8m0, e8m1);
-
-  if (bounce1.update())
-  {
-    update = true;
-    if (bounce1.read() == HIGH)
-    {
-      Serial.println("button1 clicked");
-      ChangeMode(e1mode, knobOne, e1m0, e1m1);
-    }
-  }
+  encoder1Handler->pressButton();
 
   if (bounce2.update())
   {
@@ -356,7 +224,7 @@ void HandleInputs(
     if (bounce2.read() == HIGH)
     {
       Serial.println("button2 clicked");
-      ChangeMode(e2mode, knobTwo, e2m0, e2m1);
+      encoder2Handler->ChangeMode();
     }
   }
 
@@ -366,7 +234,7 @@ void HandleInputs(
     if (bounce3.read() == HIGH)
     {
       Serial.println("button3 clicked");
-      ChangeMode(e3mode, knobThree, e3m0, e3m1);
+      encoder3Handler->ChangeMode();
     }
   }
 
@@ -437,7 +305,7 @@ void HandleInputs(
   if (update)
   {
     display.displayEncoders(
-        e1mode,
+        encoder1Handler->mode,
         metroOn,
         enc1Value,
         enc2Value,
@@ -449,7 +317,7 @@ void HandleInputs(
         enc8Value);
          
     Serial.print("knobOne: ");
-    int myValue = pattern.get(e1m0, e1m1);
+    int myValue = encoder1Handler->getPattern();
     Serial.print(bitRead(myValue,0));
     Serial.print(bitRead(myValue,1));
     Serial.print(bitRead(myValue,2));

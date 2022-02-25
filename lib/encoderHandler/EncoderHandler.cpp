@@ -67,3 +67,13 @@ void EncoderHandler::handleChange()
     }
   }
 };
+
+void EncoderHandler::pressButton() {
+  if (physicalEncoder->buttonUpdate())
+  {
+    if (physicalEncoder->buttonRead() == 1)
+    {
+      ChangeMode();
+    }
+  }
+}

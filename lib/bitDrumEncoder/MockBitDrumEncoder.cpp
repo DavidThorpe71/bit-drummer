@@ -4,6 +4,7 @@ class MockBitDrumEncoder: public BitDrumEncoderAbstract
 {
 private:
     int encoderValue;
+    int buttonValue;
 public:
     MockBitDrumEncoder() {}
     void write(int value) {
@@ -12,4 +13,11 @@ public:
     int read() {
         return encoderValue;
     };
+    int buttonUpdate() {
+        buttonValue = 1;
+        return 1;
+    }
+    int buttonRead() {
+        return buttonValue;
+    }
 };

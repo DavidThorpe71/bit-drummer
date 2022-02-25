@@ -12,6 +12,8 @@ class BitDrumEncoderAbstract
   public:
     virtual void write(int value) = 0;
     virtual int read() = 0;
+    virtual int buttonUpdate() = 0;
+    virtual int buttonRead() = 0;
 };
 
 #endif

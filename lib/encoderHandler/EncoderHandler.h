@@ -6,7 +6,7 @@
 #ifndef ENCODERHANDLER_H
 #define ENCODERHANDLER_H
 
-#include <BitDrumEncoder.h>
+#include <BitDrumEncoderAbstract.h>
 #include <Pattern.h>
 
 class EncoderHandler
@@ -28,5 +28,6 @@ public:
   void ChangeMode();
   int getPattern();
   void handleChange();
+  void pressButton();
 };
 #endif
