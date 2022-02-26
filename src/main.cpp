@@ -107,28 +107,28 @@ void noteHandling();
 bool update = false;
 
 BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
-EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0, &update,127);
 
 BitDrumEncoderAbstract* encoder2 = new BitDrumEncoder(&knobTwo,&bounce2);
-EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0, &update, 127);
 
 BitDrumEncoderAbstract* encoder3 = new BitDrumEncoder(&knobThree, &bounce3);
-EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0, &update, 127);
 
 BitDrumEncoderAbstract* encoder4 = new BitDrumEncoder(&knobFour, &bounce4);
-EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0, &update, 127);
 
 BitDrumEncoderAbstract* encoder5 = new BitDrumEncoder(&knobFive, &bounce5);
-EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0, &update, 127);
 
 BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
-EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0, &update, 127);
 
 BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0, &update, 7);
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
-EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0, &update);
+EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0, &update, 1000);
 
 void setup()
 {
@@ -225,36 +225,6 @@ void HandleInputs()
   encoder6Handler->handleButtonPress();
   encoder7Handler->handleButtonPress();
   encoder8Handler->handleButtonPress();
-
-  if (bounce3.update())
-  {
-    update = true;
-    if (bounce3.read() == HIGH)
-    {
-      Serial.println("button3 clicked");
-      encoder3Handler->ChangeMode();
-    }
-  }
-
-  if (bounce4.update())
-  {
-    Serial.println("button4 clicked");
-  }
-
-  if (bounce5.update())
-  {
-    Serial.println("button5 clicked");
-  }
-
-  if (bounce6.update())
-  {
-    Serial.println("button6 clicked");
-  }
-
-  if (bounce7.update())
-  {
-    Serial.println("button7 clicked");
-  }
 
   if (bounce8.update())
   {

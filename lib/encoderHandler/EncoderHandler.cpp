@@ -7,7 +7,8 @@ EncoderHandler::EncoderHandler(
   int m,
   int mode0lv,
   int mode1lv,
-  bool *update)
+  bool *update,
+  int encoderMax)
 {
     physicalEncoder = encoderInstance;
     pattern = pattern;
@@ -15,6 +16,7 @@ EncoderHandler::EncoderHandler(
     mode0LastValue = mode0lv;
     mode1LastValue = mode1lv;
     update = update;
+    encoderMax = encoderMax;
 };
 
 void EncoderHandler::changeMode()
@@ -39,13 +41,18 @@ int EncoderHandler::getPattern()
   return pattern.rightRotate(mode0LastValue, mode1LastValue);
 };
 
+void EncoderHandler::setUpdate(bool updateValue)
+{
+  update = updateValue;
+};
+
 void EncoderHandler::handleEncoderTurn()
 {
   int newEncoderValue = physicalEncoder->read();
 
-  if (newEncoderValue > 127)
+  if (newEncoderValue > encoderMax)
   {
-      newEncoderValue = 127;
+      newEncoderValue = encoderMax;
       physicalEncoder->write(newEncoderValue * 4);
   }
 
@@ -73,7 +80,7 @@ void EncoderHandler::handleEncoderTurn()
 void EncoderHandler::handleButtonPress() {
   if (physicalEncoder->buttonUpdate())
   {
-    update = true;
+    setUpdate(true);
     if (physicalEncoder->buttonRead() == 1)
     {
       changeMode();

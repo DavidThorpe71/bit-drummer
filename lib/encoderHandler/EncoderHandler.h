@@ -18,6 +18,7 @@ public:
   int mode0LastValue;
   int mode1LastValue;
   bool *update;
+  int encoderMax;
 
   EncoderHandler(
     BitDrumEncoderAbstract *encoderInstance,
@@ -25,11 +26,13 @@ public:
     int mode, 
     int mode0lv, 
     int mode1lv,
-    bool *update);
+    bool *update,
+    int encoderMax);
 
   void changeMode();
   int getPattern();
   void handleEncoderTurn();
   void handleButtonPress();
+  void setUpdate(bool update);
 };
 #endif
