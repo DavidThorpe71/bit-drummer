@@ -12,6 +12,8 @@
 #include <Display.h>
 #include <Pattern.h>
 #include <EncoderHandler.h>
+#include <PatternEncoderHandler.cpp>
+#include <TempoEncoderHandler.cpp>
 #include <BitDrumEncoderAbstract.h>
 #include <BitDrumEncoder.cpp>
 
@@ -52,7 +54,6 @@ AudioControlSGTL5000 sgtl5000_1; // xy=667.3333129882812,27.333335876464844
 // GUItool: end automatically generated code
 
 // PIN SETUP
-// TODO: correct these values
 Encoder knobOne(0, 1);
 Encoder knobTwo(2, 3);
 Encoder knobThree(4, 5);
@@ -61,7 +62,7 @@ Encoder knobFive(26, 27);
 Encoder knobSix(28, 29);
 Encoder knobSeven(30, 31);
 Encoder knobEight(32, 33);
-// TODO: need to check these values
+
 #define BUTTON1 34
 #define BUTTON2 37
 #define BUTTON3 35
@@ -90,45 +91,37 @@ Bounce bounce8 = Bounce(BUTTON8, 5);
 
 boolean metroOn = false;
 
-void HandleInputs(
-    int &enc1Value,
-    int &enc2Value,
-    int &enc3Value,
-    int &enc4Value,
-    int &enc5Value,
-    int &enc6Value,
-    int &enc7Value,
-    int &enc8Value);
+bool update = false;
+
+BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
+PatternEncoderHandler* encoder1Handler = new PatternEncoderHandler(encoder1, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder2 = new BitDrumEncoder(&knobTwo, &bounce2);
+PatternEncoderHandler* encoder2Handler = new PatternEncoderHandler(encoder2, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder3 = new BitDrumEncoder(&knobThree, &bounce3);
+PatternEncoderHandler* encoder3Handler = new PatternEncoderHandler(encoder3, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder4 = new BitDrumEncoder(&knobFour, &bounce4);
+PatternEncoderHandler* encoder4Handler = new PatternEncoderHandler(encoder4, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder5 = new BitDrumEncoder(&knobFive, &bounce5);
+PatternEncoderHandler* encoder5Handler = new PatternEncoderHandler(encoder5, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
+PatternEncoderHandler* encoder6Handler = new PatternEncoderHandler(encoder6, pattern, 127, &update);
+
+BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
+PatternEncoderHandler* encoder7Handler = new PatternEncoderHandler(encoder7, pattern, 7, &update);
+
+BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
+TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 1000, &update);
+
+void HandleInputs();
 
 void setupSdPlayer();
 
 void noteHandling();
-
-bool update = false;
-
-BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
-EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0, &update,127);
-
-BitDrumEncoderAbstract* encoder2 = new BitDrumEncoder(&knobTwo,&bounce2);
-EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0, &update, 127);
-
-BitDrumEncoderAbstract* encoder3 = new BitDrumEncoder(&knobThree, &bounce3);
-EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0, &update, 127);
-
-BitDrumEncoderAbstract* encoder4 = new BitDrumEncoder(&knobFour, &bounce4);
-EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0, &update, 127);
-
-BitDrumEncoderAbstract* encoder5 = new BitDrumEncoder(&knobFive, &bounce5);
-EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0, &update, 127);
-
-BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
-EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0, &update, 127);
-
-BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0, &update, 7);
-
-BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
-EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0, &update, 1000);
 
 void setup()
 {
@@ -155,7 +148,7 @@ void setup()
   setupSdPlayer();
   setupMixer();
 
-  encoder8->write(127);
+  encoder8->write(250);
 }
 
 void setupSdPlayer()
@@ -206,12 +199,11 @@ void loop()
 
   HandleInputs();
 
-  // if a character is sent from the serial monitor,
-  // reset both back to zero.
+  // if a character is sent from the serial monitor
   if (Serial.available())
   {
     Serial.read();
-    Serial.println("Reset all knobs to zero");
+    Serial.println("Pressed a key in the serial monitor");
   }
 }
 
@@ -226,25 +218,11 @@ void HandleInputs()
   encoder7Handler->handleButtonPress();
   encoder8Handler->handleButtonPress();
 
-  if (bounce8.update())
-  {
-    update = true;
-    if (bounce8.read() == HIGH)
-    {
-      if (!metroOn)
-      {
-        metroOn = true;
-      }
-      else
-      {
-        metroOn = false;
-      }
-    }
-  }
+  int tempoValue = encoder8Handler->getPattern();
 
   if (metroOn)
   {
-    if (metro.hasPassed(enc8Value))
+    if (metro.hasPassed(tempoValue))
     {
       metro.restart(); // Restart the chronometer.
 
@@ -259,7 +237,8 @@ void HandleInputs()
 
       noteHandling();
     }
-    if (metro.hasPassed(enc8Value * 0.7))
+
+    if (metro.hasPassed(tempoValue * 0.7))
     {
       envelope1.noteOff();
       envelope2.noteOff();
@@ -323,42 +302,42 @@ const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "FOUR.WAV", "FIVE.WA
 void noteHandling()
 {
   // BD1.WAV
-  if (bitRead(pattern.get(e1m0, e1m1), counter) == 1)
+  if (bitRead(encoder1Handler->getPattern(), counter) == 1)
   {
     envelope1.noteOn();
     playSdWav1.play(filelist[0]);
   }
   // SN1.WAV
-  if (bitRead(pattern.get(e2m0, e2m1), counter) == 1)
+  if (bitRead(encoder2Handler->getPattern(), counter) == 1)
   {
     envelope2.noteOn();
     playSdWav2.play(filelist[1]);
   }
   // // HH1.WAV
-  if (bitRead(pattern.get(e3m0, e3m1), counter) == 1)
+  if (bitRead(encoder3Handler->getPattern(), counter) == 1)
   {
     envelope3.noteOn();
     playSdWav3.play(filelist[2]);
   }
 
-  // // BD2.WAV
-  // if (bitRead(pattern.get(enc2Value), counter) == 1)
-  // {
-  //   envelope1.noteOn();
-  //   playSdWav1.play(filelist[3]);
-  // }
+  // BD2.WAV
+  if (bitRead(encoder4Handler->getPattern(), counter) == 1)
+  {
+    envelope1.noteOn();
+    playSdWav1.play(filelist[3]);
+  }
 
-  // // SNR2.WAV
-  // if (bitRead(pattern.get(enc4Value), counter) == 1)
-  // {
-  //   envelope1.noteOn();
-  //   playSdWav1.play(filelist[4]);
-  // }
+  // SNR2.WAV
+  if (bitRead(encoder5Handler->getPattern(), counter) == 1)
+  {
+    envelope1.noteOn();
+    playSdWav1.play(filelist[4]);
+  }
 
-  // // HH2.WAV
-  // if (bitRead(pattern.get(enc6Value), counter) == 1)
-  // {
-  //   envelope1.noteOn();
-  //   playSdWav1.play(filelist[5]);
-  // }
+  // HH2.WAV
+  if (bitRead(encoder6Handler->getPattern(), counter) == 1)
+  {
+    envelope1.noteOn();
+    playSdWav1.play(filelist[5]);
+  }
 }

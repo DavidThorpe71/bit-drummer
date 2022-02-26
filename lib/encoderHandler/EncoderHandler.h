@@ -14,25 +14,12 @@ class EncoderHandler
 public:
   BitDrumEncoderAbstract *physicalEncoder;
   Pattern pattern;
-  int mode;
-  int mode0LastValue;
-  int mode1LastValue;
   bool *update;
   int encoderMax;
 
-  EncoderHandler(
-    BitDrumEncoderAbstract *encoderInstance,
-    Pattern pattern,
-    int mode, 
-    int mode0lv, 
-    int mode1lv,
-    bool *update,
-    int encoderMax);
-
-  void changeMode();
-  int getPattern();
-  void handleEncoderTurn();
-  void handleButtonPress();
-  void setUpdate(bool update);
+  virtual int getPattern() = 0;
+  virtual void handleEncoderTurn() = 0;
+  virtual void handleButtonPress() = 0;
+  virtual void setUpdate(bool update) = 0;
 };
 #endif
