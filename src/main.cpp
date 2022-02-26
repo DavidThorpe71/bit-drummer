@@ -14,6 +14,7 @@
 #include <EncoderHandler.h>
 #include <PatternEncoderHandler.cpp>
 #include <TempoEncoderHandler.cpp>
+#include <MenuEncoderHandler.cpp>
 #include <BitDrumEncoderAbstract.h>
 #include <BitDrumEncoder.cpp>
 
@@ -90,7 +91,7 @@ Bounce bounce7 = Bounce(BUTTON7, 5);
 Bounce bounce8 = Bounce(BUTTON8, 5);
 
 boolean metroOn = false;
-
+int mode = 0;
 bool update = false;
 
 BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
@@ -112,7 +113,7 @@ BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
 PatternEncoderHandler* encoder6Handler = new PatternEncoderHandler(encoder6, pattern, 127, &update);
 
 BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-PatternEncoderHandler* encoder7Handler = new PatternEncoderHandler(encoder7, pattern, 7, &update);
+MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, 7, &mode, &update);
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
 TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 1000, &update);
