@@ -113,7 +113,7 @@ BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
 PatternEncoderHandler* encoder6Handler = new PatternEncoderHandler(encoder6, pattern, 127, &update);
 
 BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, 7, &mode, &update);
+MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, &mode, 7, &update);
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
 TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 1000, &update);

@@ -9,14 +9,14 @@ public:
   MenuEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
     Pattern pattern,
-    int encoderMax,
     int *mode,
+    int encoderMax,
     bool *update) 
   {
     physicalEncoder = encoderInstance;
     pattern = pattern;
-    encoderMax = encoderMax;
     mode = mode;
+    encoderMax = encoderMax;
     update = update;
   };
 
