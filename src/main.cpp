@@ -104,29 +104,31 @@ void setupSdPlayer();
 
 void noteHandling();
 
+bool update = false;
+
 BitDrumEncoderAbstract* encoder1 = new BitDrumEncoder(&knobOne, &bounce1);
-EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0);
+EncoderHandler* encoder1Handler = new EncoderHandler(encoder1, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder2 = new BitDrumEncoder(&knobTwo,&bounce2);
-EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0);
+EncoderHandler* encoder2Handler = new EncoderHandler(encoder2, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder3 = new BitDrumEncoder(&knobThree, &bounce3);
-EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0);
+EncoderHandler* encoder3Handler = new EncoderHandler(encoder3, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder4 = new BitDrumEncoder(&knobFour, &bounce4);
-EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0);
+EncoderHandler* encoder4Handler = new EncoderHandler(encoder4, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder5 = new BitDrumEncoder(&knobFive, &bounce5);
-EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0);
+EncoderHandler* encoder5Handler = new EncoderHandler(encoder5, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
-EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0);
+EncoderHandler* encoder6Handler = new EncoderHandler(encoder6, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0);
+EncoderHandler* encoder7Handler = new EncoderHandler(encoder7, pattern, 0, 0, 0, &update);
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
-EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0);
+EncoderHandler* encoder8Handler = new EncoderHandler(encoder8, pattern, 0, 0, 0, &update);
 
 void setup()
 {
@@ -194,7 +196,7 @@ Pattern pattern;
 
 void loop()
 {
-
+  update = false;
   int audioMemUsage = AudioMemoryUsageMax();
   if (audioMemUsage > originalAudioMemUsage)
   {
@@ -215,18 +217,14 @@ void loop()
 
 void HandleInputs()
 {
-  bool update = false;
-  encoder1Handler->pressButton();
-
-  if (bounce2.update())
-  {
-    update = true;
-    if (bounce2.read() == HIGH)
-    {
-      Serial.println("button2 clicked");
-      encoder2Handler->ChangeMode();
-    }
-  }
+  encoder1Handler->handleButtonPress();
+  encoder2Handler->handleButtonPress();
+  encoder3Handler->handleButtonPress();
+  encoder4Handler->handleButtonPress();
+  encoder5Handler->handleButtonPress();
+  encoder6Handler->handleButtonPress();
+  encoder7Handler->handleButtonPress();
+  encoder8Handler->handleButtonPress();
 
   if (bounce3.update())
   {

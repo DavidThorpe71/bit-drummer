@@ -17,17 +17,19 @@ public:
   int mode;
   int mode0LastValue;
   int mode1LastValue;
+  bool *update;
 
   EncoderHandler(
     BitDrumEncoderAbstract *encoderInstance,
     Pattern pattern,
     int mode, 
     int mode0lv, 
-    int mode1lv);
+    int mode1lv,
+    bool *update);
 
-  void ChangeMode();
+  void changeMode();
   int getPattern();
-  void handleChange();
-  void pressButton();
+  void handleEncoderTurn();
+  void handleButtonPress();
 };
 #endif

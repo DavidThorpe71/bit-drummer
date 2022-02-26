@@ -6,16 +6,18 @@ EncoderHandler::EncoderHandler(
   Pattern pattern, 
   int m,
   int mode0lv,
-  int mode1lv)
+  int mode1lv,
+  bool *update)
 {
     physicalEncoder = encoderInstance;
     pattern = pattern;
     mode = m;
     mode0LastValue = mode0lv;
     mode1LastValue = mode1lv;
+    update = update;
 };
 
-void EncoderHandler::ChangeMode()
+void EncoderHandler::changeMode()
 {
   if (mode == 0)
   {
@@ -37,7 +39,7 @@ int EncoderHandler::getPattern()
   return pattern.rightRotate(mode0LastValue, mode1LastValue);
 };
 
-void EncoderHandler::handleChange()
+void EncoderHandler::handleEncoderTurn()
 {
   int newEncoderValue = physicalEncoder->read();
 
@@ -68,12 +70,13 @@ void EncoderHandler::handleChange()
   }
 };
 
-void EncoderHandler::pressButton() {
+void EncoderHandler::handleButtonPress() {
   if (physicalEncoder->buttonUpdate())
   {
+    update = true;
     if (physicalEncoder->buttonRead() == 1)
     {
-      ChangeMode();
+      changeMode();
     }
   }
 }
