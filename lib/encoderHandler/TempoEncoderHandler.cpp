@@ -1,6 +1,5 @@
 #include <EncoderHandler.h>
 #include <iostream>
-#include <SerialFlash.h>
 
 class TempoEncoderHandler: EncoderHandler {
 
@@ -24,8 +23,6 @@ public:
 
   void toggleMetroOnOff()
   {
-    Serial.print("metro:");
-    Serial.println(*metro);
     *metro = !*metro;
   };
 

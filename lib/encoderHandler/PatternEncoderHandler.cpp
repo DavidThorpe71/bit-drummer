@@ -61,7 +61,6 @@ public:
 
   void changeMode() {
     physicalEncoder->write(valueArray[*mode]);
-    // handleEncoderTurn();
   };
 
   int getPattern() 
@@ -104,6 +103,10 @@ public:
       if (physicalEncoder->buttonRead() == 1)
       {
         valueArray[0] = rand() % 127;
+        if (*mode == 0) {
+          physicalEncoder->write(valueArray[0]);
+          // handleEncoderTurn();
+        }
       }
     }
   };

@@ -151,8 +151,8 @@ void setup()
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
 
-  // setupSdPlayer();
-  // setupMixer();
+  setupSdPlayer();
+  setupMixer();
   initialiseEncoders();
 }
 
@@ -263,12 +263,12 @@ void HandleInputs()
 
     if (metro.hasPassed(tempoValue * 0.7))
     {
-      // envelope1.noteOff();
-      // envelope2.noteOff();
-      // envelope3.noteOff();
-      // envelope4.noteOff();
-      // envelope5.noteOff();
-      // envelope6.noteOff();
+      envelope1.noteOff();
+      envelope2.noteOff();
+      envelope3.noteOff();
+      envelope4.noteOff();
+      envelope5.noteOff();
+      envelope6.noteOff();
     }
   }
 
