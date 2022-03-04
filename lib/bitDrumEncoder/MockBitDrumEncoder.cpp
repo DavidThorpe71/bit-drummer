@@ -1,4 +1,4 @@
-#include <BitDrumEncoder.h>
+#include <BitDrumEncoderAbstract.h>
 
 class MockBitDrumEncoder: public BitDrumEncoderAbstract 
 {
@@ -6,7 +6,10 @@ private:
     int encoderValue;
     int buttonValue;
 public:
-    MockBitDrumEncoder() {}
+    MockBitDrumEncoder() {
+        encoderValue = 0;
+        buttonValue = 0;
+    }
     void write(int value) {
         encoderValue = value;
     };

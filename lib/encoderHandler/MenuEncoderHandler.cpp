@@ -8,7 +8,7 @@ public:
 
   MenuEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
-    Pattern pattern,
+    BitDrumPattern pattern,
     int *mode,
     int encoderMax,
     bool *update) 

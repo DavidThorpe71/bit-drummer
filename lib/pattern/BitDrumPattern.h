@@ -3,13 +3,13 @@
   patterns in the bit-drummer project.
   Created by David Thorpe 21st Feb 2022
 */
-#ifndef PATTERN_H
-#define PATTERN_H
+#ifndef BITDRUMPATTERN_H
+#define BITDRUMPATTERN_H
 
-class Pattern
+class BitDrumPattern
 {
 public:
-  Pattern() {}
+  BitDrumPattern() {}
   int rightRotate(int patternIndex, unsigned int patternRotate);
 };
 #endif

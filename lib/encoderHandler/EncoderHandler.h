@@ -7,13 +7,13 @@
 #define ENCODERHANDLER_H
 
 #include <BitDrumEncoderAbstract.h>
-#include <Pattern.h>
+#include <BitDrumPattern.h>
 
 class EncoderHandler
 {
 public:
   BitDrumEncoderAbstract *physicalEncoder;
-  Pattern pattern;
+  BitDrumPattern pattern;
   bool *update;
   int encoderMax;
 

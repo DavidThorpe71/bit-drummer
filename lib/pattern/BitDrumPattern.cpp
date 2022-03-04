@@ -1,4 +1,4 @@
-#include <Pattern.h>
+#include <BitDrumPattern.h>
 
 const int patternArray[129] = {
   0,1,3,5,9,17,33,65,129,7,11,13,19,21,25,
@@ -14,7 +14,7 @@ const int patternArray[129] = {
   219,221,231,235,237,243,245,249,127,191,
   223,239,247,251,253,255};
 
-int Pattern::rightRotate(int patternIndex, unsigned int patternRotate) {
+int BitDrumPattern::rightRotate(int patternIndex, unsigned int patternRotate) {
     int n = patternArray[patternIndex];
     unsigned int d = patternRotate;
     return (n << d)|(n >> (8 - d));

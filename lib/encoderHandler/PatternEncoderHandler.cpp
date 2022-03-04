@@ -4,41 +4,67 @@
 class PatternEncoderHandler: EncoderHandler {
 
 public:
-  int mode = 0;
-  int mode0LastValue = 0;
-  int mode1LastValue = 0;
+  int *mode;
+  int encoderMax;
+  int valueArraySize;
+  int valueArray[9];
+  int loopLength;
 
   PatternEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
-    Pattern pattern,
-    int encoderMax,
-    bool *update) 
+    BitDrumPattern patternPkg,
+    int maxValue,
+    bool *shouldUpdate,
+    int *inputMode) 
   {
     physicalEncoder = encoderInstance;
-    pattern = pattern;
-    encoderMax = encoderMax;
-    update = update;
+    pattern = patternPkg;
+    encoderMax = maxValue;
+    update = shouldUpdate;
+    loopLength = 8;
+    mode = inputMode;
+    valueArraySize = sizeof(valueArray)/sizeof(valueArray[0]);
+   
+    initialiseEncoderValues();
+
   };
 
+  void initialiseEncoderValues() {
+    // pattern 0 - 127
+    valueArray[0] = 0;
+
+    // pattern rotation 0 - 8
+    valueArray[1] = 0;
+    
+    // pattern length 1 - 127
+    valueArray[2] = 8;
+    
+    // instrument 1 setting 1 - 127
+    valueArray[3] = 0;
+
+    // instrument 2 setting 1 - 127
+    valueArray[4] = 0;
+
+    // instrument 3 setting 1 - 127
+    valueArray[5] = 0;
+
+    // instrument 4 setting 1 - 127
+    valueArray[6] = 0;
+
+    // instrument 5 setting 1 - 127
+    valueArray[7] = 0;
+
+    // instrument 6 setting 1 - 127
+    valueArray[7] = 0;
+  }
+
   void changeMode() {
-    if (mode == 0)
-    {
-      mode = 1;
-      physicalEncoder->write(mode1LastValue);
-    }
-    else
-    {
-      mode = 0;
-      physicalEncoder->write(mode0LastValue);
-    }
+    physicalEncoder->write(valueArray[*mode]);
   };
 
   int getPattern() 
   {
-    if (mode0LastValue == 0) {
-      return 0;
-    }
-    return pattern.rightRotate(mode0LastValue, mode1LastValue);
+    return pattern.rightRotate(valueArray[0], valueArray[1]);
   };
 
   void setUpdate(bool updateValue)
@@ -62,18 +88,9 @@ public:
         physicalEncoder->write(newEncoderValue);
     }
 
-    if (mode == 0) {
-      if (newEncoderValue != mode0LastValue)
-      {
-        mode0LastValue = newEncoderValue;
-      }
-    }
-
-    if (mode == 1) {
-      if (newEncoderValue != mode1LastValue)
-      {
-        mode1LastValue = newEncoderValue;
-      }
+    if (newEncoderValue != valueArray[*mode])
+    {
+      valueArray[*mode] = newEncoderValue;
     }
   };
 
@@ -83,8 +100,16 @@ public:
       setUpdate(true);
       if (physicalEncoder->buttonRead() == 1)
       {
-        changeMode();
+        valueArray[0] = rand() % 127;
       }
     }
   };
+
+  int getLoopLength() {
+    return valueArray[2];
+  }
+
+  int getEncoderModeValue() {
+    return valueArray[*mode];
+  }
 };

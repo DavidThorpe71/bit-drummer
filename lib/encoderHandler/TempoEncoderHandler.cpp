@@ -9,7 +9,7 @@ public:
 
   TempoEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
-    Pattern pattern, 
+    BitDrumPattern pattern, 
     bool *metro,
     int encoderMax,
     bool *update)
