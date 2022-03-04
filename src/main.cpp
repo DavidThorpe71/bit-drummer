@@ -10,12 +10,12 @@
 #include <Chrono.h>
 #include <Bounce.h>
 #include <Display.h>
-#include <BitDrumPattern.h>
+#include <BitDrumEncoderAbstract.h>
 #include <EncoderHandler.h>
+#include <MenuEncoderHandler.cpp>
 #include <PatternEncoderHandler.cpp>
 #include <TempoEncoderHandler.cpp>
-#include <MenuEncoderHandler.cpp>
-#include <BitDrumEncoderAbstract.h>
+#include <BitDrumPattern.h>
 #include <BitDrumEncoder.cpp>
 
 // GUItool: begin automatically generated code
@@ -61,7 +61,7 @@ Encoder knobThree(4, 5);
 Encoder knobFour(24, 25);
 Encoder knobFive(26, 27);
 Encoder knobSix(28, 29);
-Encoder knobSeven(30, 31);
+Encoder knobSeven(31, 30);
 Encoder knobEight(32, 33);
 
 #define BUTTON1 34
@@ -114,12 +114,14 @@ BitDrumEncoderAbstract* encoder6 = new BitDrumEncoder(&knobSix, &bounce6);
 PatternEncoderHandler* encoder6Handler = new PatternEncoderHandler(encoder6, pattern, 127, &update, &mode);
 
 BitDrumEncoderAbstract* encoder7 = new BitDrumEncoder(&knobSeven, &bounce7);
-MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, &mode, 7, &update);
+MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, &mode, 9, &update);
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
-TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 1000, &update);
+TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 2000, &update);
 
 void HandleInputs();
+
+void initialiseEncoders();
 
 void setupSdPlayer();
 
@@ -149,10 +151,18 @@ void setup()
   sgtl5000_1.enable();
   sgtl5000_1.volume(0.5);
 
-  setupSdPlayer();
-  setupMixer();
+  // setupSdPlayer();
+  // setupMixer();
+  initialiseEncoders();
+}
 
-  encoder8->write(250);
+void initialiseEncoders() {
+  encoder8->write(250); 
+  encoder8Handler->handleEncoderTurn();
+  Serial.println("encoder 8 setup successfully");
+  Serial.print("encode 8 value: ");
+  Serial.println(encoder8->read());
+  // encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 1000, &update);
 }
 
 void setupSdPlayer()
@@ -200,26 +210,43 @@ void loop()
   }
 
   HandleInputs();
-
-  // if a character is sent from the serial monitor
-  if (Serial.available())
-  {
-    Serial.read();
-    Serial.println("Pressed a key in the serial monitor");
-  }
 }
+
+ int oldMode = 0;
 
 void HandleInputs()
 {
-
-  // encoder1Handler->handleButtonPress();
-  // encoder2Handler->handleButtonPress();
-  // encoder3Handler->handleButtonPress();
-  // encoder4Handler->handleButtonPress();
-  // encoder5Handler->handleButtonPress();
-  // encoder6Handler->handleButtonPress();
+  encoder1Handler->handleButtonPress();
+  encoder2Handler->handleButtonPress();
+  encoder3Handler->handleButtonPress();
+  encoder4Handler->handleButtonPress();
+  encoder5Handler->handleButtonPress();
+  encoder6Handler->handleButtonPress();
   encoder7Handler->handleButtonPress();
   encoder8Handler->handleButtonPress();
+
+  encoder1Handler->handleEncoderTurn();
+  encoder2Handler->handleEncoderTurn();
+  encoder3Handler->handleEncoderTurn();
+  encoder4Handler->handleEncoderTurn();
+  encoder5Handler->handleEncoderTurn();
+  encoder6Handler->handleEncoderTurn();
+  encoder7Handler->handleEncoderTurn();
+  encoder8Handler->handleEncoderTurn();
+  
+ 
+  if (oldMode != mode) {
+    encoder1Handler->changeMode();
+    encoder2Handler->changeMode();
+    encoder3Handler->changeMode();
+    encoder4Handler->changeMode();
+    encoder5Handler->changeMode();
+    encoder6Handler->changeMode();
+
+    oldMode = mode;
+  }
+  // encoder7Handler->changeMode();
+  // encoder8Handler->handleEncoderTurn();
 
   int tempoValue = encoder8Handler->getPattern();
 
@@ -258,6 +285,7 @@ void HandleInputs()
         encoder6Handler->getEncoderModeValue(),
         encoder7Handler->getPattern(),
         encoder8Handler->getPattern());
+    // display.displayEncoders(0, false, 0, 0, 0, 0, 0, 0, 0, 0);
          
     Serial.print("knobOne: ");
     int myValue = encoder1Handler->getPattern();

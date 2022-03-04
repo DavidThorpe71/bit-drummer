@@ -8,16 +8,16 @@ public:
 
   MenuEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
-    BitDrumPattern pattern,
-    int *mode,
-    int encoderMax,
-    bool *update) 
+    BitDrumPattern inPattern,
+    int *inMode,
+    int inEncoderMax,
+    bool *inUpdate) 
   {
     physicalEncoder = encoderInstance;
-    pattern = pattern;
-    mode = mode;
-    encoderMax = encoderMax;
-    update = update;
+    pattern = inPattern;
+    mode = inMode;
+    encoderMax = inEncoderMax;
+    update = inUpdate;
   };
 
   int getPattern() 
@@ -34,7 +34,7 @@ public:
   {
     int newEncoderValue = physicalEncoder->read();
 
-    if (newEncoderValue > encoderMax)
+    if (newEncoderValue > encoderMax - 1)
     {
       newEncoderValue = encoderMax;
       physicalEncoder->write(newEncoderValue * 4);
@@ -48,6 +48,7 @@ public:
 
     if (newEncoderValue != *mode)
     {
+      setUpdate(true);
       *mode = newEncoderValue;
     }
   };
@@ -58,7 +59,7 @@ public:
       setUpdate(true);
       if (physicalEncoder->buttonRead() == 1)
       {
-        std::cout << "nothing happens when you press this button\n";
+        
       }
     }
   };

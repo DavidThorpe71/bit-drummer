@@ -1,5 +1,6 @@
 #include <EncoderHandler.h>
 #include <iostream>
+#include <SerialFlash.h>
 
 class TempoEncoderHandler: EncoderHandler {
 
@@ -9,21 +10,23 @@ public:
 
   TempoEncoderHandler(
     BitDrumEncoderAbstract *encoderInstance, 
-    BitDrumPattern pattern, 
-    bool *metro,
-    int encoderMax,
-    bool *update)
+    BitDrumPattern inPattern, 
+    bool *inMetro,
+    int inEncoderMax,
+    bool *inUpdate)
   {
     physicalEncoder = encoderInstance;
-    pattern = pattern;
-    metro = metro;
-    encoderMax = encoderMax;
-    update = update;
+    pattern = inPattern;
+    metro = inMetro;
+    encoderMax = inEncoderMax;
+    update = inUpdate;
   };
 
   void toggleMetroOnOff()
   {
-    *metro = !metro;
+    Serial.print("metro:");
+    Serial.println(*metro);
+    *metro = !*metro;
   };
 
   int getPattern() 
@@ -54,6 +57,7 @@ public:
 
     if (newEncoderValue != encoderLastValue)
     {
+      setUpdate(true);
       encoderLastValue = newEncoderValue;
     }
   };

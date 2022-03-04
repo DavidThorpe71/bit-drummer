@@ -45,7 +45,7 @@ void Display::startup()
   oled.println(text);
   oled.display();
 
-  delay(2000);
+  delay(1000);
 }
 
 int digits;
@@ -103,17 +103,34 @@ void Display::displayEncoders(
 
 void setModeText(int mode, String &modeText)
 {
-  if (mode == 0)
-  {
-    modeText = "SynthDrum";
-  }
-  else if (mode == 1)
-  {
-    modeText = "Strings";
-  }
-  else
-  {
-    modeText = "DrumSamps";
+  Serial.println(mode);
+  switch (mode) {
+    case 1:
+      modeText = "Rotation";
+      break;
+    case 2:
+      modeText = "Length";
+      break;
+    case 3:
+      modeText = "Instr 1";
+      break;
+    case 4:
+      modeText = "Instr 2";
+      break;
+    case 5:
+      modeText = "Instr 3";
+      break;
+    case 6:
+      modeText = "Instr 4";
+      break;
+    case 7:
+      modeText = "Instr 5";
+      break;
+    case 8:
+      modeText = "Instr 6";
+      break;
+    default:
+      modeText = "Pattern";
   }
 }
 

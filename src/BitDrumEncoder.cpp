@@ -8,9 +8,9 @@ private:
     Encoder *encoder;
     Bounce *button;
 public:
-    BitDrumEncoder(Encoder *encoder, Bounce *button) {
-        encoder = encoder;
-        button = button;
+    BitDrumEncoder(Encoder *inEncoder, Bounce *inButton) {
+        encoder = inEncoder;
+        button = inButton;
     }
 
     int read() {

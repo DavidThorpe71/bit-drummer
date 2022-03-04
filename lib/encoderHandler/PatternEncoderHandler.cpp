@@ -1,5 +1,6 @@
 #include <EncoderHandler.h>
 #include <iostream>
+#include <cstdlib>
 
 class PatternEncoderHandler: EncoderHandler {
 
@@ -60,6 +61,7 @@ public:
 
   void changeMode() {
     physicalEncoder->write(valueArray[*mode]);
+    // handleEncoderTurn();
   };
 
   int getPattern() 
@@ -76,7 +78,7 @@ public:
   {
     int newEncoderValue = physicalEncoder->read();
 
-    if (newEncoderValue > encoderMax)
+    if (newEncoderValue > encoderMax - 1)
     {
         newEncoderValue = encoderMax;
         physicalEncoder->write(newEncoderValue * 4);
@@ -90,6 +92,7 @@ public:
 
     if (newEncoderValue != valueArray[*mode])
     {
+      setUpdate(true);
       valueArray[*mode] = newEncoderValue;
     }
   };
