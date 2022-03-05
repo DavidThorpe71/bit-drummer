@@ -10,6 +10,7 @@
 #include <Chrono.h>
 #include <Bounce.h>
 #include <Display.h>
+#include <FmSynth2Op.h>
 #include <BitDrumEncoderAbstract.h>
 #include <EncoderHandler.h>
 #include <MenuEncoderHandler.cpp>
@@ -19,40 +20,53 @@
 #include <BitDrumEncoder.cpp>
 
 // GUItool: begin automatically generated code
-AudioPlaySdWav playSdWav5;     // xy=378.8888804117838,458.88888041178376
-AudioPlaySdWav playSdWav6;     // xy=380.5555191040039,510.555477142334
-AudioPlaySdWav playSdWav4;     // xy=382.2222137451172,393.8888359069824
-AudioPlaySdWav playSdWav2;     // xy=385.55554962158203,285.5555419921875
-AudioPlaySdWav playSdWav3;     // xy=385.55555725097656,338.88886642456055
-AudioPlaySdWav playSdWav1;     // xy=392.22221374511713,225.55554707845047
-AudioEffectEnvelope envelope4; // xy=603.888916015625,385.5556049346924
-AudioEffectEnvelope envelope2; // xy=605.5555191040039,297.22220039367676
-AudioEffectEnvelope envelope1; // xy=606.3333129882812,246.3333282470703
-AudioEffectEnvelope envelope3; // xy=607.2222290039062,340.5555763244629
-AudioEffectEnvelope envelope5; // xy=608.888916015625,430.5555486679077
-AudioEffectEnvelope envelope6; // xy=610.5555419921875,475.55550956726074
-AudioMixer4 mixer2;            // xy=810.5555648803711,362.22218322753906
-AudioMixer4 mixer1;            // xy=812.2222696940103,285.5555076599121
-AudioMixer4 mixer3;            // xy=960.5556945800781,315.55550765991217
-AudioOutputI2S i2s1;           // xy=1125.3334503173828,317.66662979125977
-AudioConnection patchCord1(playSdWav5, 0, envelope5, 0);
-AudioConnection patchCord2(playSdWav6, 0, envelope6, 0);
-AudioConnection patchCord3(playSdWav4, 0, envelope4, 0);
-AudioConnection patchCord4(playSdWav2, 0, envelope2, 0);
-AudioConnection patchCord5(playSdWav3, 0, envelope3, 0);
-AudioConnection patchCord6(playSdWav1, 0, envelope1, 0);
-AudioConnection patchCord7(envelope4, 0, mixer1, 3);
-AudioConnection patchCord8(envelope2, 0, mixer1, 1);
-AudioConnection patchCord9(envelope1, 0, mixer1, 0);
-AudioConnection patchCord10(envelope3, 0, mixer1, 2);
-AudioConnection patchCord11(envelope5, 0, mixer2, 0);
-AudioConnection patchCord12(envelope6, 0, mixer2, 1);
-AudioConnection patchCord13(mixer2, 0, mixer3, 1);
-AudioConnection patchCord14(mixer1, 0, mixer3, 0);
-AudioConnection patchCord15(mixer3, 0, i2s1, 0);
-AudioConnection patchCord16(mixer3, 0, i2s1, 1);
-AudioControlSGTL5000 sgtl5000_1; // xy=667.3333129882812,27.333335876464844
+AudioSynthWaveformModulated waveformMod2;   //xy=261.33331298828125,237.33331298828125
+AudioSynthWaveformModulated waveformMod6; //xy=261.3332977294922,331
+AudioSynthWaveformModulated waveformMod8; //xy=262.3332977294922,377
+AudioSynthWaveformModulated waveformMod4; //xy=264.3332977294922,282
+AudioSynthWaveformModulated waveformMod10; //xy=267.3332977294922,420
+AudioSynthWaveformModulated waveformMod12; //xy=268.99998474121094,466
+AudioSynthWaveformModulated waveformMod7; //xy=437.33331298828125,384
+AudioSynthWaveformModulated waveformMod1;   //xy=441.33331298828125,246.33331298828125
+AudioSynthWaveformModulated waveformMod3; //xy=442.33331298828125,296
+AudioSynthWaveformModulated waveformMod5; //xy=443.33331298828125,338
+AudioSynthWaveformModulated waveformMod9; //xy=443.33331298828125,430
+AudioSynthWaveformModulated waveformMod11; //xy=445,476
+AudioEffectEnvelope      envelope4;      //xy=603.888916015625,385.5556049346924
+AudioEffectEnvelope      envelope2;      //xy=605.5555191040039,297.22220039367676
+AudioEffectEnvelope      envelope1;      //xy=606.3333129882812,246.3333282470703
+AudioEffectEnvelope      envelope3;      //xy=607.2222290039062,340.5555763244629
+AudioEffectEnvelope      envelope5;      //xy=608.888916015625,430.5555486679077
+AudioEffectEnvelope      envelope6;      //xy=610.5555419921875,475.55550956726074
+AudioMixer4              mixer2;         //xy=810.5555648803711,362.22218322753906
+AudioMixer4              mixer1;         //xy=812.2222696940103,285.5555076599121
+AudioMixer4              mixer3;         //xy=960.5556945800781,315.55550765991217
+AudioOutputI2S           i2s1;           //xy=1125.3334503173828,317.66662979125977
+AudioConnection          patchCord1(waveformMod2, 0, waveformMod1, 0);
+AudioConnection          patchCord2(waveformMod6, 0, waveformMod5, 0);
+AudioConnection          patchCord3(waveformMod8, 0, waveformMod7, 0);
+AudioConnection          patchCord4(waveformMod4, 0, waveformMod3, 0);
+AudioConnection          patchCord5(waveformMod10, 0, waveformMod9, 0);
+AudioConnection          patchCord6(waveformMod12, 0, waveformMod11, 0);
+AudioConnection          patchCord7(waveformMod7, envelope4);
+AudioConnection          patchCord8(waveformMod1, envelope1);
+AudioConnection          patchCord9(waveformMod3, envelope2);
+AudioConnection          patchCord10(waveformMod5, envelope3);
+AudioConnection          patchCord11(waveformMod9, envelope5);
+AudioConnection          patchCord12(waveformMod11, envelope6);
+AudioConnection          patchCord13(envelope4, 0, mixer1, 3);
+AudioConnection          patchCord14(envelope2, 0, mixer1, 1);
+AudioConnection          patchCord15(envelope1, 0, mixer1, 0);
+AudioConnection          patchCord16(envelope3, 0, mixer1, 2);
+AudioConnection          patchCord17(envelope5, 0, mixer2, 0);
+AudioConnection          patchCord18(envelope6, 0, mixer2, 1);
+AudioConnection          patchCord19(mixer2, 0, mixer3, 1);
+AudioConnection          patchCord20(mixer1, 0, mixer3, 0);
+AudioConnection          patchCord21(mixer3, 0, i2s1, 0);
+AudioConnection          patchCord22(mixer3, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=667.3333129882812,27.333335876464844
 // GUItool: end automatically generated code
+
 
 // PIN SETUP
 Encoder knobOne(0, 1);
@@ -118,6 +132,8 @@ MenuEncoderHandler* encoder7Handler = new MenuEncoderHandler(encoder7, pattern, 
 
 BitDrumEncoderAbstract* encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
 TempoEncoderHandler* encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 2000, &update);
+
+FmSynth2Op* fmSynth1 = new FmSynth2Op(&waveformMod1, &waveformMod2, &envelope1);
 
 void HandleInputs();
 
