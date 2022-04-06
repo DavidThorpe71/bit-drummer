@@ -4,3 +4,4 @@
 .vscode/ipch
 .idea/
 node_modules/
+.pio
