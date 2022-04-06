@@ -23,14 +23,13 @@ public:
   void noteOff();
 
   void setOp1Freq(int freq);
-  void setOp2FreqRatio(int ratio);
+  void setOp2FreqRatio(float ratio);
 
   void setModAmount(int modAmount);
 
   void setOp1Env(int decay);
 
   void setOp2Env(int decay);
-
 
 private:
   AudioSynthWaveformModulated *op1;
