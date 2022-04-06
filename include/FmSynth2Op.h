@@ -14,25 +14,29 @@ public:
   FmSynth2Op(
       AudioSynthWaveformModulated *iop1,
       AudioSynthWaveformModulated *iop2,
-      AudioEffectEnvelope *iopEnv1);;
+      AudioEffectEnvelope *iopEnv1,
+      AudioEffectEnvelope *iopEnv2);
 
   void init();
 
   void noteOn();
   void noteOff();
 
-  void setOp1Freq(float freq);
-  void setOp2FreqRatio(float ratio);
+  void setOp1Freq(int freq);
+  void setOp2FreqRatio(int ratio);
 
   void setModAmount(int modAmount);
 
-  void setOp1Env(float a, float d, float r);
+  void setOp1Env(int decay);
+
+  void setOp2Env(int decay);
 
 
 private:
   AudioSynthWaveformModulated *op1;
   AudioSynthWaveformModulated *op2;
   AudioEffectEnvelope *op1Env;
+  AudioEffectEnvelope *op2Env;
   float op1Freq;
 };
 
