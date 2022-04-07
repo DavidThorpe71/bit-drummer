@@ -171,7 +171,7 @@ void HandleInstrument(FmSynth2Op *synthIn, int *instrumentSettings, int modeSett
 
 void noteHandling();
 
-void controlChangeHandler(byte channel, byte control, byte value)
+void controlChangeHandlerMidi(byte channel, byte control, byte value)
 {
   switch (control)
   {
@@ -204,11 +204,48 @@ void controlChangeHandler(byte channel, byte control, byte value)
   }
 }
 
+void controlChangeHandlerSerial(int control, int value)
+{
+  switch (control)
+  {
+  case 100:
+    mixer1.gain(0, float(value) / 100);
+    break;
+  case 101:
+    fmSynth1->setOp1Freq(value);
+    break;
+  case 102:
+    waveformMod1.phaseModulation(value);
+    break;
+  case 103:
+    envelope1.attack(value);
+    break;
+  case 104:
+    envelope1.decay(value);
+    break;
+  case 105:
+    envelope1.release(value);
+    break;
+  case 106:
+    envelope7.attack(value);
+    break;
+  case 107:
+    envelope7.decay(value);
+    break;
+  case 108:
+    envelope7.release(value);
+    break;
+  case 109:
+    fmSynth1->setOp2FreqRatio(value / 100);
+    break;
+  }
+}
+
 void setup()
 {
   Serial.begin(9600);
   Serial.println("David bit drum machine - sampler version");
-  usbMIDI.setHandleControlChange(controlChangeHandler);
+  // usbMIDI.setHandleControlChange(controlChangeHandler);
   display.startup();
 
   pinMode(BUTTON1, INPUT);
@@ -280,9 +317,47 @@ int originalAudioMemUsage = 0;
 int instrument1Settings[6] = {0, 0, 0, 0, 0, 0};
 int instrument2Settings[6] = {0, 0, 0, 0, 0, 0};
 
+int bytesToInt(int highByte, int lowByte)
+{
+  return ((unsigned int)highByte << 8) + lowByte;
+}
+
+int rxState = 0;
+byte cc_type;
+byte cc_val1;
+byte cc_val2;
+
+void handleSerialIn()
+{
+  rxState++;
+
+  switch (rxState)
+  {
+  case 1:
+    cc_type = Serial.read();
+    break;
+  case 2:
+    cc_val1 = Serial.read();
+    break;
+  case 3:
+    cc_val2 = Serial.read();
+    rxState = 0;
+
+    int control = cc_type;
+    int value = bytesToInt(cc_val1, cc_val2);
+
+    controlChangeHandlerSerial(control, value);
+    break;
+  }
+}
+
 void loop()
 {
-  usbMIDI.read();
+  if (Serial.available())
+  {
+    handleSerialIn();
+  }
+
   update = false;
   int audioMemUsage = AudioMemoryUsageMax();
   if (audioMemUsage > originalAudioMemUsage)

@@ -67,18 +67,12 @@ void FmSynth2Op::setOp1Freq(int freq)
 
 void FmSynth2Op::setOp2FreqRatio(float ratio)
 {
-    float scaledValue = ratio / 10;
-    Serial.print("FMSynth2Op op2Freq: ");
-    Serial.println(op1Freq * scaledValue);
-    op2->frequency(op1Freq * scaledValue);
+    op2->frequency(op1Freq * ratio);
 }
 
 void FmSynth2Op::setModAmount(int modAmount)
 {
-    int scaledModAmount = 720 / 127;
-    Serial.print("FMSynth2Op modAmount: ");
-    Serial.println(modAmount * scaledModAmount);
-    op1->phaseModulation(modAmount * scaledModAmount);
+    op1->phaseModulation(modAmount);
 }
 
 void FmSynth2Op::setOp1Env(int decay)
