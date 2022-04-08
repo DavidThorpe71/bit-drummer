@@ -20,58 +20,51 @@
 #include <BitDrumEncoder.cpp>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformModulated waveformMod2;  // xy=96.33332824707031,216.33331298828125
-AudioSynthWaveformModulated waveformMod6;  // xy=97.33329772949219,325
-AudioSynthWaveformModulated waveformMod4;  // xy=98.33329772949219,276.99998474121094
-AudioSynthWaveformModulated waveformMod8;  // xy=262.3332977294922,377
-AudioSynthWaveformModulated waveformMod10; // xy=267.3332977294922,420
-AudioSynthWaveformModulated waveformMod12; // xy=268.99998474121094,466
-AudioEffectEnvelope envelope8;             // xy=271.3333282470703,283.33331298828125
-AudioEffectEnvelope envelope7;             // xy=273.33331298828125,222.3333282470703
-AudioEffectEnvelope envelope9;             // xy=284.3333282470703,324.3333282470703
-AudioSynthWaveformModulated waveformMod7;  // xy=437.33331298828125,384
-AudioSynthWaveformModulated waveformMod1;  // xy=441.33331298828125,246.33331298828125
-AudioSynthWaveformModulated waveformMod3;  // xy=442.33331298828125,296
-AudioSynthWaveformModulated waveformMod5;  // xy=443.33331298828125,338
-AudioSynthWaveformModulated waveformMod9;  // xy=443.33331298828125,430
-AudioSynthWaveformModulated waveformMod11; // xy=445,476
-AudioEffectEnvelope envelope4;             // xy=603.888916015625,385.5556049346924
-AudioEffectEnvelope envelope2;             // xy=605.5555191040039,297.22220039367676
-AudioEffectEnvelope envelope1;             // xy=606.3333129882812,246.3333282470703
-AudioEffectEnvelope envelope3;             // xy=607.2222290039062,340.5555763244629
-AudioEffectEnvelope envelope5;             // xy=608.888916015625,430.5555486679077
-AudioEffectEnvelope envelope6;             // xy=610.5555419921875,475.55550956726074
-AudioMixer4 mixer2;                        // xy=810.5555648803711,362.22218322753906
-AudioMixer4 mixer1;                        // xy=812.2222696940103,285.5555076599121
-AudioMixer4 mixer3;                        // xy=960.5556945800781,315.55550765991217
-AudioOutputI2S i2s1;                       // xy=1125.3334503173828,317.66662979125977
-AudioConnection patchCord1(waveformMod2, envelope7);
-AudioConnection patchCord2(waveformMod6, envelope9);
-AudioConnection patchCord3(waveformMod4, envelope8);
-AudioConnection patchCord4(waveformMod8, 0, waveformMod7, 0);
-AudioConnection patchCord5(waveformMod10, 0, waveformMod9, 0);
-AudioConnection patchCord6(waveformMod12, 0, waveformMod11, 0);
-AudioConnection patchCord7(envelope8, 0, waveformMod3, 0);
-AudioConnection patchCord8(envelope7, 0, waveformMod1, 0);
-AudioConnection patchCord9(envelope9, 0, waveformMod5, 0);
-AudioConnection patchCord10(waveformMod7, envelope4);
-AudioConnection patchCord11(waveformMod1, envelope1);
-AudioConnection patchCord12(waveformMod3, envelope2);
-AudioConnection patchCord13(waveformMod5, envelope3);
-AudioConnection patchCord14(waveformMod9, envelope5);
-AudioConnection patchCord15(waveformMod11, envelope6);
-AudioConnection patchCord16(envelope4, 0, mixer1, 3);
-AudioConnection patchCord17(envelope2, 0, mixer1, 1);
-AudioConnection patchCord18(envelope1, 0, mixer1, 0);
-AudioConnection patchCord19(envelope3, 0, mixer1, 2);
-AudioConnection patchCord20(envelope5, 0, mixer2, 0);
-AudioConnection patchCord21(envelope6, 0, mixer2, 1);
-AudioConnection patchCord22(mixer2, 0, mixer3, 1);
-AudioConnection patchCord23(mixer1, 0, mixer3, 0);
-AudioConnection patchCord24(mixer3, 0, i2s1, 0);
-AudioConnection patchCord25(mixer3, 0, i2s1, 1);
-AudioControlSGTL5000 sgtl5000_1; // xy=667.3333129882812,27.333335876464844
+AudioSynthWaveformModulated waveformMod8; //xy=113.74996948242188,413.111083984375
+AudioSynthWaveformModulated waveformMod7; //xy=114.30552673339844,373
+AudioSynthWaveformModulated waveformMod5;   //xy=114.77778625488281,326.11109924316406
+AudioSynthWaveformModulated waveformMod4; //xy=115.33334350585938,286.00001525878906
+AudioSynthWaveformModulated waveformMod2;   //xy=118.33332824707031,238.33330535888672
+AudioEffectEnvelope      envelope8; //xy=273.30555725097656,413.33331298828125
+AudioEffectEnvelope      envelope5;      //xy=274.3333740234375,326.3333282470703
+AudioEffectEnvelope      envelope2;      //xy=275.33335876464844,239.33330535888672
+AudioEffectEnvelope      envelope7; //xy=275.30555725097656,373.33331298828125
+AudioEffectEnvelope      envelope4;      //xy=276.3333740234375,286.3333282470703
+AudioSynthWaveformModulated waveformMod1;   //xy=441.33331298828125,246.33331298828125
+AudioMixer4              mixer5; //xy=480.30552673339844,412.33331298828125
+AudioMixer4              mixer4;         //xy=481.3333435058594,325.3333282470703
+AudioSynthWaveformModulated waveformMod6; //xy=639.3055267333984,420
+AudioSynthWaveformModulated waveformMod3; //xy=640.3333435058594,333.00001525878906
+AudioEffectEnvelope      envelope1;      //xy=800.3332824707031,246.3333282470703
+AudioEffectEnvelope      envelope6; //xy=802.3055267333984,419.33331298828125
+AudioEffectEnvelope      envelope3;      //xy=803.3333435058594,332.3333282470703
+AudioMixer4              mixer1;         //xy=991.2222595214844,319.5555114746094
+AudioMixer4              mixer3;         //xy=1154.3056640625,402.3055114746094
+AudioOutputI2S           i2s1;           //xy=1303.08349609375,401.4166259765625
+AudioConnection          patchCord1(waveformMod8, envelope8);
+AudioConnection          patchCord2(waveformMod7, envelope7);
+AudioConnection          patchCord3(waveformMod5, envelope5);
+AudioConnection          patchCord4(waveformMod4, envelope4);
+AudioConnection          patchCord5(waveformMod2, envelope2);
+AudioConnection          patchCord6(envelope8, 0, mixer5, 1);
+AudioConnection          patchCord7(envelope5, 0, mixer4, 1);
+AudioConnection          patchCord8(envelope2, 0, waveformMod1, 0);
+AudioConnection          patchCord9(envelope7, 0, mixer5, 0);
+AudioConnection          patchCord10(envelope4, 0, mixer4, 0);
+AudioConnection          patchCord11(waveformMod1, envelope1);
+AudioConnection          patchCord12(mixer5, 0, waveformMod6, 0);
+AudioConnection          patchCord13(mixer4, 0, waveformMod3, 0);
+AudioConnection          patchCord14(waveformMod6, envelope6);
+AudioConnection          patchCord15(waveformMod3, envelope3);
+AudioConnection          patchCord16(envelope1, 0, mixer1, 0);
+AudioConnection          patchCord17(envelope6, 0, mixer1, 2);
+AudioConnection          patchCord18(envelope3, 0, mixer1, 1);
+AudioConnection          patchCord19(mixer1, 0, mixer3, 0);
+AudioConnection          patchCord20(mixer3, 0, i2s1, 0);
+AudioConnection          patchCord21(mixer3, 0, i2s1, 1);
+AudioControlSGTL5000     sgtl5000_1;     //xy=667.3333129882812,27.333335876464844
 // GUItool: end automatically generated code
+
 
 // PIN SETUP
 Encoder knobOne(0, 1);
@@ -156,8 +149,10 @@ MenuEncoderHandler *encoder7Handler = new MenuEncoderHandler(encoder7, pattern, 
 BitDrumEncoderAbstract *encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
 TempoEncoderHandler *encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 2000, &update);
 
-FmSynth2Op *fmSynth1 = new FmSynth2Op(&waveformMod1, &waveformMod2, &envelope1, &envelope7);
-FmSynth2Op *fmSynth2 = new FmSynth2Op(&waveformMod3, &waveformMod4, &envelope2, &envelope8);
+FmSynth2Op *fmSynth1 = new FmSynth2Op(&waveformMod1, &waveformMod2, &envelope1, &envelope2);
+
+FmSynth3Op *fmSynth3Op1 = new FmSynth3Op(&waveformMod1, &waveformMod2, &waveformMod2, &envelope1, &envelope2, &envelope2);
+
 
 void HandleInputs();
 
