@@ -11,6 +11,7 @@
 #include <Bounce.h>
 #include <Display.h>
 #include <FmSynth2Op.h>
+#include <FmSynth3Op.h>
 #include <BitDrumEncoderAbstract.h>
 #include <EncoderHandler.h>
 #include <MenuEncoderHandler.cpp>
@@ -20,51 +21,50 @@
 #include <BitDrumEncoder.cpp>
 
 // GUItool: begin automatically generated code
-AudioSynthWaveformModulated waveformMod8; //xy=113.74996948242188,413.111083984375
-AudioSynthWaveformModulated waveformMod7; //xy=114.30552673339844,373
-AudioSynthWaveformModulated waveformMod5;   //xy=114.77778625488281,326.11109924316406
-AudioSynthWaveformModulated waveformMod4; //xy=115.33334350585938,286.00001525878906
-AudioSynthWaveformModulated waveformMod2;   //xy=118.33332824707031,238.33330535888672
-AudioEffectEnvelope      envelope8; //xy=273.30555725097656,413.33331298828125
-AudioEffectEnvelope      envelope5;      //xy=274.3333740234375,326.3333282470703
-AudioEffectEnvelope      envelope2;      //xy=275.33335876464844,239.33330535888672
-AudioEffectEnvelope      envelope7; //xy=275.30555725097656,373.33331298828125
-AudioEffectEnvelope      envelope4;      //xy=276.3333740234375,286.3333282470703
-AudioSynthWaveformModulated waveformMod1;   //xy=441.33331298828125,246.33331298828125
-AudioMixer4              mixer5; //xy=480.30552673339844,412.33331298828125
-AudioMixer4              mixer4;         //xy=481.3333435058594,325.3333282470703
-AudioSynthWaveformModulated waveformMod6; //xy=639.3055267333984,420
-AudioSynthWaveformModulated waveformMod3; //xy=640.3333435058594,333.00001525878906
-AudioEffectEnvelope      envelope1;      //xy=800.3332824707031,246.3333282470703
-AudioEffectEnvelope      envelope6; //xy=802.3055267333984,419.33331298828125
-AudioEffectEnvelope      envelope3;      //xy=803.3333435058594,332.3333282470703
-AudioMixer4              mixer1;         //xy=991.2222595214844,319.5555114746094
-AudioMixer4              mixer3;         //xy=1154.3056640625,402.3055114746094
-AudioOutputI2S           i2s1;           //xy=1303.08349609375,401.4166259765625
-AudioConnection          patchCord1(waveformMod8, envelope8);
-AudioConnection          patchCord2(waveformMod7, envelope7);
-AudioConnection          patchCord3(waveformMod5, envelope5);
-AudioConnection          patchCord4(waveformMod4, envelope4);
-AudioConnection          patchCord5(waveformMod2, envelope2);
-AudioConnection          patchCord6(envelope8, 0, mixer5, 1);
-AudioConnection          patchCord7(envelope5, 0, mixer4, 1);
-AudioConnection          patchCord8(envelope2, 0, waveformMod1, 0);
-AudioConnection          patchCord9(envelope7, 0, mixer5, 0);
-AudioConnection          patchCord10(envelope4, 0, mixer4, 0);
-AudioConnection          patchCord11(waveformMod1, envelope1);
-AudioConnection          patchCord12(mixer5, 0, waveformMod6, 0);
-AudioConnection          patchCord13(mixer4, 0, waveformMod3, 0);
-AudioConnection          patchCord14(waveformMod6, envelope6);
-AudioConnection          patchCord15(waveformMod3, envelope3);
-AudioConnection          patchCord16(envelope1, 0, mixer1, 0);
-AudioConnection          patchCord17(envelope6, 0, mixer1, 2);
-AudioConnection          patchCord18(envelope3, 0, mixer1, 1);
-AudioConnection          patchCord19(mixer1, 0, mixer3, 0);
-AudioConnection          patchCord20(mixer3, 0, i2s1, 0);
-AudioConnection          patchCord21(mixer3, 0, i2s1, 1);
-AudioControlSGTL5000     sgtl5000_1;     //xy=667.3333129882812,27.333335876464844
+AudioSynthWaveformModulated waveformMod8; // xy=113.74996948242188,413.111083984375
+AudioSynthWaveformModulated waveformMod7; // xy=114.30552673339844,373
+AudioSynthWaveformModulated waveformMod5; // xy=114.77778625488281,326.11109924316406
+AudioSynthWaveformModulated waveformMod4; // xy=115.33334350585938,286.00001525878906
+AudioSynthWaveformModulated waveformMod2; // xy=118.33332824707031,238.33330535888672
+AudioEffectEnvelope envelope8;            // xy=273.30555725097656,413.33331298828125
+AudioEffectEnvelope envelope5;            // xy=274.3333740234375,326.3333282470703
+AudioEffectEnvelope envelope2;            // xy=275.33335876464844,239.33330535888672
+AudioEffectEnvelope envelope7;            // xy=275.30555725097656,373.33331298828125
+AudioEffectEnvelope envelope4;            // xy=276.3333740234375,286.3333282470703
+AudioSynthWaveformModulated waveformMod1; // xy=441.33331298828125,246.33331298828125
+AudioMixer4 mixer5;                       // xy=480.30552673339844,412.33331298828125
+AudioMixer4 mixer4;                       // xy=481.3333435058594,325.3333282470703
+AudioSynthWaveformModulated waveformMod6; // xy=639.3055267333984,420
+AudioSynthWaveformModulated waveformMod3; // xy=640.3333435058594,333.00001525878906
+AudioEffectEnvelope envelope1;            // xy=800.3332824707031,246.3333282470703
+AudioEffectEnvelope envelope6;            // xy=802.3055267333984,419.33331298828125
+AudioEffectEnvelope envelope3;            // xy=803.3333435058594,332.3333282470703
+AudioMixer4 mixer1;                       // xy=991.2222595214844,319.5555114746094
+AudioMixer4 mixer2;                       // xy=1154.3056640625,402.3055114746094
+AudioOutputI2S i2s1;                      // xy=1303.08349609375,401.4166259765625
+AudioConnection patchCord1(waveformMod8, envelope8);
+AudioConnection patchCord2(waveformMod7, envelope7);
+AudioConnection patchCord3(waveformMod5, envelope5);
+AudioConnection patchCord4(waveformMod4, envelope4);
+AudioConnection patchCord5(waveformMod2, envelope2);
+AudioConnection patchCord6(envelope8, 0, mixer5, 1);
+AudioConnection patchCord7(envelope5, 0, mixer4, 1);
+AudioConnection patchCord8(envelope2, 0, waveformMod1, 0);
+AudioConnection patchCord9(envelope7, 0, mixer5, 0);
+AudioConnection patchCord10(envelope4, 0, mixer4, 0);
+AudioConnection patchCord11(waveformMod1, envelope1);
+AudioConnection patchCord12(mixer5, 0, waveformMod6, 0);
+AudioConnection patchCord13(mixer4, 0, waveformMod3, 0);
+AudioConnection patchCord14(waveformMod6, envelope6);
+AudioConnection patchCord15(waveformMod3, envelope3);
+AudioConnection patchCord16(envelope1, 0, mixer1, 0);
+AudioConnection patchCord17(envelope6, 0, mixer1, 2);
+AudioConnection patchCord18(envelope3, 0, mixer1, 1);
+AudioConnection patchCord19(mixer1, 0, mixer2, 0);
+AudioConnection patchCord20(mixer2, 0, i2s1, 0);
+AudioConnection patchCord21(mixer2, 0, i2s1, 1);
+AudioControlSGTL5000 sgtl5000_1; // xy=667.3333129882812,27.333335876464844
 // GUItool: end automatically generated code
-
 
 // PIN SETUP
 Encoder knobOne(0, 1);
@@ -149,10 +149,9 @@ MenuEncoderHandler *encoder7Handler = new MenuEncoderHandler(encoder7, pattern, 
 BitDrumEncoderAbstract *encoder8 = new BitDrumEncoder(&knobEight, &bounce8);
 TempoEncoderHandler *encoder8Handler = new TempoEncoderHandler(encoder8, pattern, &metroOn, 2000, &update);
 
-FmSynth2Op *fmSynth1 = new FmSynth2Op(&waveformMod1, &waveformMod2, &envelope1, &envelope2);
+FmSynth2Op *fmSynth2Op1 = new FmSynth2Op(&waveformMod1, &waveformMod2, &envelope1, &envelope2);
 
-FmSynth3Op *fmSynth3Op1 = new FmSynth3Op(&waveformMod1, &waveformMod2, &waveformMod2, &envelope1, &envelope2, &envelope2);
-
+FmSynth3Op *fmSynth3Op1 = new FmSynth3Op(&waveformMod3, &waveformMod4, &waveformMod5, &envelope3, &envelope4, &envelope5, &mixer4);
 
 void HandleInputs();
 
@@ -162,7 +161,9 @@ void setupSdPlayer();
 
 void setupMixer();
 
-void HandleInstrument(FmSynth2Op *synthIn, int *instrumentSettings, int modeSetting);
+void HandleFm2OpSettings(FmSynth2Op *synthIn, int *instrumentSettings, int modeSetting);
+
+void HandleFm3OpSettings(FmSynth3Op *synthIn, int *instrumentSettings, int modeSetting);
 
 void noteHandling();
 
@@ -174,7 +175,7 @@ void controlChangeHandlerMidi(byte channel, byte control, byte value)
     mixer1.gain(0, (float)value / 127);
     break;
   case 101:
-    fmSynth1->setOp1Freq((float)value);
+    fmSynth2Op1->setOp1Freq((float)value);
     break;
   case 102:
     waveformMod1.phaseModulation(9000 / (float)value);
@@ -194,7 +195,7 @@ void controlChangeHandlerMidi(byte channel, byte control, byte value)
     envelope7.release(1 + (float)value * 2);
     break;
   case 109:
-    fmSynth1->setOp2FreqRatio((float)value);
+    fmSynth2Op1->setOp2FreqRatio((float)value);
     break;
   }
 }
@@ -203,11 +204,71 @@ void controlChangeHandlerSerial(int control, int value)
 {
   switch (control)
   {
+  // 3Op FM Synth below here =>
+  case 40:
+    mixer1.gain(1, float(value) / 100);
+    break;
+  case 41:
+    fmSynth3Op1->setOp1Freq(value);
+    break;
+  case 42:
+    fmSynth3Op1->setOp2FreqRatio(float(value) / 100);
+    break;
+  case 43:
+    fmSynth3Op1->setOp3FreqRatio(float(value) / 100);
+    break;
+  case 44:
+    fmSynth3Op1->setModAmountOp2to1(float(value) / 100);
+    break;
+  case 45:
+    fmSynth3Op1->setModAmountOp3to1(float(value) / 100);
+    break;
+  case 46:
+    envelope3.attack(value);
+    break;
+  case 47:
+    envelope3.decay(value);
+    break;
+  case 48:
+    envelope3.sustain(value);
+    break;
+  case 49:
+    envelope3.release(value);
+    break;
+  case 50:
+    envelope4.attack(value);
+    break;
+  case 51:
+    envelope4.decay(value);
+    break;
+  case 52:
+    envelope4.sustain(value);
+    break;
+  case 53:
+    envelope4.release(value);
+    break;
+  case 54:
+    envelope5.attack(value);
+    break;
+  case 55:
+    envelope5.decay(value);
+    break;
+  case 56:
+    envelope5.sustain(value);
+    break;
+  case 57:
+    envelope5.release(value);
+    break;
+  case 58:
+    waveformMod3.phaseModulation(value);
+    break;
+
+  // 2Op FM Synth below here =>
   case 100:
     mixer1.gain(0, float(value) / 100);
     break;
   case 101:
-    fmSynth1->setOp1Freq(value);
+    fmSynth2Op1->setOp1Freq(value);
     break;
   case 102:
     waveformMod1.phaseModulation(value);
@@ -222,16 +283,16 @@ void controlChangeHandlerSerial(int control, int value)
     envelope1.release(value);
     break;
   case 106:
-    envelope7.attack(value);
+    envelope2.attack(value);
     break;
   case 107:
-    envelope7.decay(value);
+    envelope2.decay(value);
     break;
   case 108:
-    envelope7.release(value);
+    envelope2.release(value);
     break;
   case 109:
-    fmSynth1->setOp2FreqRatio(value / 100);
+    fmSynth2Op1->setOp2FreqRatio(value / 100);
     break;
   }
 }
@@ -261,8 +322,8 @@ void setup()
   // setupSdPlayer();
   setupMixer();
   initialiseEncoders();
-  fmSynth1->init();
-  fmSynth2->init();
+  fmSynth2Op1->init();
+  fmSynth3Op1->init();
 }
 
 void initialiseEncoders()
@@ -297,12 +358,6 @@ void setupMixer()
   mixer1.gain(3, 1);
 
   mixer2.gain(0, 1);
-  mixer2.gain(1, 1);
-
-  mixer3.gain(0, 1);
-  mixer3.gain(1, 1);
-
-  envelope1.decay(100);
 }
 
 int counter = 0;
@@ -362,8 +417,8 @@ void loop()
   }
 
   HandleInputs();
-  HandleInstrument(fmSynth1, instrument1Settings, 3);
-  HandleInstrument(fmSynth2, instrument2Settings, 4);
+  HandleFm2OpSettings(fmSynth2Op1, instrument1Settings, 3);
+  HandleFm3OpSettings(fmSynth3Op1, instrument2Settings, 4);
 }
 
 int oldMode = 0;
@@ -425,8 +480,8 @@ void HandleInputs()
 
     if (metro.hasPassed(tempoValue * 0.7))
     {
-      fmSynth1->noteOff();
-      fmSynth2->noteOff();
+      fmSynth2Op1->noteOff();
+      fmSynth3Op1->noteOff();
       // envelope2.noteOff();
       // envelope3.noteOff();
       // envelope4.noteOff();
@@ -485,7 +540,7 @@ void HandleInputs()
 
 int firstTime = 0;
 
-void HandleInstrument(FmSynth2Op *synthIn, int *instrumentSettings, int modeSetting)
+void HandleFm2OpSettings(FmSynth2Op *synthIn, int *instrumentSettings, int modeSetting)
 {
   int newEncoderValues[6] = {
       encoder1Handler->getModeValue(modeSetting),
@@ -535,6 +590,56 @@ void HandleInstrument(FmSynth2Op *synthIn, int *instrumentSettings, int modeSett
   }
 }
 
+void HandleFm3OpSettings(FmSynth3Op *synthIn, int *instrumentSettings, int modeSetting)
+{
+  int newEncoderValues[6] = {
+      encoder1Handler->getModeValue(modeSetting),
+      encoder2Handler->getModeValue(modeSetting),
+      encoder3Handler->getModeValue(modeSetting),
+      encoder4Handler->getModeValue(modeSetting),
+      encoder5Handler->getModeValue(modeSetting),
+      encoder6Handler->getModeValue(modeSetting)};
+
+  if (firstTime == 0)
+  {
+    Serial.print("EnocderValues: ");
+    Serial.print(newEncoderValues[0]);
+    Serial.print(newEncoderValues[1]);
+    Serial.print(newEncoderValues[2]);
+    Serial.print(newEncoderValues[3]);
+    Serial.print(newEncoderValues[4]);
+    Serial.println(newEncoderValues[5]);
+    firstTime = 1;
+  };
+
+  for (int i = 0; i < 6; i++)
+  {
+    if (newEncoderValues[i] != instrumentSettings[i])
+    {
+      switch (i)
+      {
+      case 1:
+        synthIn->setOp2FreqRatio(newEncoderValues[i]);
+        break;
+      case 2:
+        synthIn->setModAmountOp2to1(newEncoderValues[i]);
+        break;
+      case 3:
+        synthIn->setOp1Env(newEncoderValues[i]);
+        break;
+      case 4:
+        synthIn->setOp2Env(newEncoderValues[i]);
+        break;
+      case 5:
+        break;
+      default:
+        synthIn->setOp1Freq(newEncoderValues[i]);
+      }
+      instrumentSettings[i] = newEncoderValues[i];
+    }
+  }
+}
+
 // const char *filelist[6] = {"BD1.WAV", "SN1.WAV", "HH1.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 // const char *filelist[6] = {"ONE.WAV", "TWO.WAV", "THREE.WAV", "FOUR.WAV", "FIVE.WAV", "SIX.WAV"};
 
@@ -543,14 +648,14 @@ void noteHandling()
   // BD1.WAV
   if (bitRead(encoder1Handler->getPattern(), (counter % encoder1Handler->getLoopLength()) % 8) == 1)
   {
-    fmSynth1->noteOn();
+    fmSynth2Op1->noteOn();
     // envelope1.noteOn();
     // playSdWav1.play(filelist[0]);
   }
   // SN1.WAV
   if (bitRead(encoder2Handler->getPattern(), (counter % encoder2Handler->getLoopLength()) % 8) == 1)
   {
-    fmSynth2->noteOn();
+    fmSynth3Op1->noteOn();
     // playSdWav2.play(filelist[1]);
   }
   // // HH1.WAV
